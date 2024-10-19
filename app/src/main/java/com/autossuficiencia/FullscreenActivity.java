@@ -25,7 +25,7 @@ public class FullscreenActivity extends AppCompatActivity {
     private WebView webView;
     private SwipeRefreshLayout swipeRefreshLayout;
     private String webUrl;
-    private boolean isExitDialogShowing = false; // Flag to track exit dialog visibility
+    private AlertDialog exitConfirmationDialog; // Declare the dialog as a field
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @SuppressLint("SetJavaScriptEnabled")
@@ -48,9 +48,12 @@ public class FullscreenActivity extends AppCompatActivity {
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                if (!isExitDialogShowing) {
+                if (exitConfirmationDialog != null && exitConfirmationDialog.isShowing()) {
+                    // If the dialog is showing, dismiss it and reset the flag
+                    exitConfirmationDialog.dismiss();
+                } else {
+                    // If the dialog is not showing, create and show it
                     showExitConfirmationDialog();
-                    isExitDialogShowing = true;
                 }
             }
         });
@@ -102,17 +105,14 @@ public class FullscreenActivity extends AppCompatActivity {
         builder.setMessage(R.string.dialog_message);
         builder.setCancelable(true);
 
-        builder.setPositiveButton("Sim", (dialogInterface, i) -> {
-            finish();
-            isExitDialogShowing = false; // Reset the flag when the dialog is dismissed
-        });
+        builder.setPositiveButton("Sim", (dialogInterface, i) -> finish());
 
         builder.setNegativeButton("Não", (dialogInterface, i) -> {
-            isExitDialogShowing = false; // Reset the flag when the dialog is dismissed
+            // Do nothing, just dismiss the dialog
         });
 
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        exitConfirmationDialog = builder.create(); // Create the dialog
+        exitConfirmationDialog.show(); // Show the dialog
     }
 
     private void showNetworkAlertDialog() {
