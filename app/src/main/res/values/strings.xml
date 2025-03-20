@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">Autossuficiencia</string>
+    <string name="app_name">Saldo Fácil</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="dialog_title">Deseja encerrar?</string>
     <string name="dialog_message">Você está prestes a encerrar o aplicativo</string>
-    <string name="web_url">https://marcosnunes.github.io/autossuficiencia-web</string>
+    <string name="web_url">https://marcosnunes.github.io/saldofacil</string>
 </resources>
