@@ -4,5 +4,5 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="dialog_title">Deseja encerrar?</string>
     <string name="dialog_message">Você está prestes a encerrar o aplicativo</string>
-    <string name="web_url">https://marcosnunes.github.io/saldofacil</string>
+    <string name="web_url">https://saldofacil.vercel.app</string>
 </resources>
