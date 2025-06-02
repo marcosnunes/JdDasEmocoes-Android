@@ -137,10 +137,11 @@ public class FullscreenActivity extends AppCompatActivity {
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                if (url.startsWith("whatsapp://chat/")) {
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                    startActivity(intent);
-                    return true;
+                if (url.equals("https://saldofacil.vercel.app/chat.html")) {
+                    swipeRefreshLayout.setEnabled(false);
+                    return false;
+                } else {
+                    swipeRefreshLayout.setEnabled(true);
                 }
                 return false;
             }
@@ -265,11 +266,6 @@ public class FullscreenActivity extends AppCompatActivity {
         }
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-    }
-
-    @JavascriptInterface
-    public void downloadFile(String url, String filename) {
-        downloadDataUrlFile(url, filename);
     }
 
     @JavascriptInterface
