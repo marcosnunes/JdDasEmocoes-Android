@@ -169,7 +169,7 @@ public class FullscreenActivity extends AppCompatActivity {
 
         webView.setDownloadListener((url, userAgent, contentDisposition, mimetype, contentLength) -> {
             String filename = URLUtil.guessFileName(url, contentDisposition, mimetype);
-            downloadDataUrlFile(url, filename);
+            downloadFile(url, filename);
         });
 
         // Check network connection before loading URL
@@ -269,53 +269,42 @@ public class FullscreenActivity extends AppCompatActivity {
     }
 
     @JavascriptInterface
-    public void downloadDataUrlFile(String dataUrl, String filename) {
+    public void downloadFile(String base64Data, String fileName) {
         try {
-            // Decode the Base64 encoded data URL
-            String base64Encoded = dataUrl.substring(dataUrl.indexOf(",") + 1);
-            byte[] decodedBytes = Base64.decode(base64Encoded, Base64.DEFAULT);
+            byte[] decodedBytes = Base64.decode(base64Data, Base64.DEFAULT);
 
-            // Generate the file name with extension
-            String fileName = filename.endsWith(".xlsx") ? filename : filename + ".xlsx";
             String mimeType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
-            //  Save to the Documents directory
             ContentValues values = new ContentValues();
             values.put(MediaStore.MediaColumns.DISPLAY_NAME, fileName);
             values.put(MediaStore.MediaColumns.MIME_TYPE, mimeType);
+            values.put(MediaStore.MediaColumns.IS_PENDING, 1);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 values.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOCUMENTS);
-            } else {
-                // For older versions, you might need to request storage permissions
-                File documentsDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "YourAppFolder"); // Optional subfolder
-                if (!documentsDir.exists()) {
-                    documentsDir.mkdirs();
-                }
-                File file = new File(documentsDir, fileName);
-                values.put(MediaStore.MediaColumns.DATA, file.getAbsolutePath());
             }
 
-            Uri externalContentUri = MediaStore.Files.getContentUri("external");
-            Uri uri = getContentResolver().insert(externalContentUri, values);
+            Uri collection = MediaStore.Files.getContentUri("external");
+            Uri uri = getContentResolver().insert(collection, values);
 
             try (OutputStream outputStream = getContentResolver().openOutputStream(uri)) {
                 outputStream.write(decodedBytes);
-                outputStream.close();
-                Log.i("Download", "File saved to: " + uri);
-                runOnUiThread(() -> Toast.makeText(FullscreenActivity.this, "Arquivo Excel Salvo em Documents", Toast.LENGTH_LONG).show());
             } catch (IOException e) {
-                Log.e("Download", "Error saving file: " + e.getMessage(), e);
-                runOnUiThread(() -> Toast.makeText(FullscreenActivity.this, "Error saving file: " + e.getMessage(), Toast.LENGTH_LONG).show());
-
-                // Delete the partial file if an error occurred
+                Log.e("Download", "Erro ao escrever no arquivo: " + e.getMessage(), e);
                 getContentResolver().delete(uri, null, null);
+                throw e;
             }
 
+            values.clear();
+            values.put(MediaStore.MediaColumns.IS_PENDING, 0);
+            getContentResolver().update(uri, values, null, null);
+
+            Log.i("Download", "Arquivo salvo com sucesso em: " + uri);
+            runOnUiThread(() -> Toast.makeText(FullscreenActivity.this, "Salvo em: " + fileName, Toast.LENGTH_LONG).show());
 
         } catch (Exception e) {
-            Log.e("Download", "Error processing download: " + e.getMessage(), e);
-            runOnUiThread(() -> Toast.makeText(FullscreenActivity.this, "Error processing download: " + e.getMessage(), Toast.LENGTH_LONG).show());
+            Log.e("Download", "Erro ao processar download: " + e.getMessage(), e);
+            runOnUiThread(() -> Toast.makeText(FullscreenActivity.this, "Falha no download: " + e.getMessage(), Toast.LENGTH_LONG).show());
         }
     }
 
