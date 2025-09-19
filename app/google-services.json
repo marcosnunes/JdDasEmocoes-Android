@@ -1,36 +1,26 @@
 {
   "project_info": {
-    "project_number": "644845193577",
-    "project_id": "autossuficiencia-2023",
-    "storage_bucket": "autossuficiencia-2023.firebasestorage.app"
+    "project_number": "18349891056",
+    "project_id": "jardim-das-emocoes",
+    "storage_bucket": "jardim-das-emocoes.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:644845193577:android:8c43bb45684539dc0415f8",
+        "mobilesdk_app_id": "1:18349891056:android:8143404cea826ce6dd1135",
         "android_client_info": {
-          "package_name": "com.autossuficiencia"
+          "package_name": "com.ojardimdasemocoes"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "644845193577-f76jh1t4s19isfnper7inj6m02vqh21n.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAP2M9nkD0RvwOFJ8UGAjA1MphnHoddI5I"
+          "current_key": "AIzaSyAeiH6O8nPdwPhCm9C-ZcIRvgf8LB4v1NI"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "644845193577-f76jh1t4s19isfnper7inj6m02vqh21n.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

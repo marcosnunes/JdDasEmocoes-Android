@@ -4,14 +4,17 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-03-19T02:14:56.674714600Z">
+        <DropdownSelection timestamp="2025-09-16T01:56:10.555549700Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="PhysicalDevice" identifier="serial=RXCT200LWPZ" />
+              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\marco\.android\avd\Medium_Phone.avd" />
             </handle>
           </Target>
         </DropdownSelection>
         <DialogSelection />
+      </SelectionState>
+      <SelectionState runConfigName="app.ojardimdasemocoes">
+        <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
   </component>
