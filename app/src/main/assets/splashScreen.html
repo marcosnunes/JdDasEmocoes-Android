@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Carregando...</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url('assets/SplashScreen.png');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            position: relative;
+        }
+        .loading-bar-container {
+            position: absolute;
+            bottom: 20%;
+            width: 80%;
+            max-width: 300px;
+            height: 10px;
+            background-color: #e2e8f0;
+            border-radius: 5px;
+            overflow: hidden;
+            border: 1px solid #10b981;
+        }
+        .loading-bar {
+            width: 0;
+            height: 100%;
+            background-color: #10b981;
+            border-radius: 5px;
+            animation: fillProgress 5s linear forwards;
+        }
+        @keyframes fillProgress {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+<div class="loading-bar-container">
+    <div class="loading-bar"></div>
+</div>
+
+<script>
+    const SPLASH_DURATION = 5000; // 5 segundos
+    const REDIRECT_URL = "file:///android_asset/index.html";
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const deviceId = getUrlParameter('deviceId');
+
+        setTimeout(() => {
+            if (deviceId) {
+                window.location.href = `${REDIRECT_URL}?deviceId=${deviceId}`;
+            } else {
+                console.error("Device ID não encontrado. Não é possível redirecionar.");
+            }
+        }, SPLASH_DURATION);
+    });
+
+    // Função auxiliar para obter parâmetros da URL
+    function getUrlParameter(name) {
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        const regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
+        const results = regex.exec(window.location.search);
+        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
+</script>
+</body>
+</html>
