@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="AppInsightsSettings">
+    <option name="selectedTabId" value="Android Vitals" />
     <option name="tabSettings">
       <map>
         <entry key="Android Vitals">
@@ -8,7 +9,7 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="com.autossuficiencia" />
+                  <option name="appId" value="com.ojardimdasemocoes" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
@@ -22,11 +23,16 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="com.autossuficiencia" />
-                  <option name="mobileSdkAppId" value="1:644845193577:android:8c43bb45684539dc0415f8" />
-                  <option name="projectId" value="autossuficiencia-2023" />
-                  <option name="projectNumber" value="644845193577" />
+                  <option name="appId" value="com.ojardimdasemocoes" />
+                  <option name="mobileSdkAppId" value="1:18349891056:android:8143404cea826ce6dd1135" />
+                  <option name="projectId" value="jardim-das-emocoes" />
+                  <option name="projectNumber" value="18349891056" />
                 </ConnectionSetting>
+              </option>
+              <option name="failureTypes">
+                <list>
+                  <option value="NON_FATAL" />
+                </list>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
               <option name="timeIntervalDays" value="THIRTY_DAYS" />

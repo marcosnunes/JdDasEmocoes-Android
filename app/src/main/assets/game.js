@@ -77,9 +77,9 @@ class GameManager {
         for (let i = 1; i <= 15; i++) {
             this.counselorBackgrounds.push(`arquivos/Conselheiro${i}.jpg`);
         }
-        this.bgMusic = document.getElementById('bgMusic');
-        this.plantSound = document.getElementById('plantSound');
-        this.buttonSound = document.getElementById('buttonSound');
+        this.bgMusic = null;
+        this.plantSound = null;
+        this.buttonSound = null;
         this.userId = null;
 
         this.plants = [
@@ -95,6 +95,69 @@ class GameManager {
             { id: 'plant10', name: 'Planta10', src: 'arquivos/Planta10.png', drySrc: 'arquivos/PlantasSecas/Planta10.png', style: 'top: 69%; left: 48%; width: 10vw; height: 10vw;', isDry: false },
             { id: 'plant11', name: 'Planta11', src: 'arquivos/Planta11.png', drySrc: 'arquivos/PlantasSecas/Planta11.png', style: 'top: 74%; left: 70%; width: 10vw; height: 10vw;', isDry: false }
         ];
+    }
+
+    initializeAudioControl() {
+        this.bgMusic = document.getElementById('bgMusic');
+        this.plantSound = document.getElementById('plantSound');
+        this.buttonSound = document.getElementById('buttonSound');
+
+        const audioOnBtn = document.getElementById('audioOnBtn');
+        const audioOffBtn = document.getElementById('audioOffBtn');
+
+        if (audioOnBtn) {
+            audioOnBtn.addEventListener('click', () => {
+                localStorage.setItem('bgMusicState', 'playing');
+                if (this.bgMusic) this.bgMusic.play().catch(e => console.error("Falha ao tocar música:", e));
+            });
+        }
+
+        if (audioOffBtn) {
+            audioOffBtn.addEventListener('click', () => {
+                localStorage.setItem('bgMusicState', 'paused');
+                if (this.bgMusic) this.bgMusic.pause();
+            });
+        }
+
+        if (this.bgMusic) {
+            const musicState = localStorage.getItem('bgMusicState');
+            this.bgMusic.currentTime = parseFloat(localStorage.getItem('bgMusicTime')) || 0;
+
+            if (musicState === 'playing') {
+                const playPromise = this.bgMusic.play();
+
+                if (playPromise !== undefined) {
+                    playPromise.catch(error => {
+                        console.warn("Autoplay bloqueado. A música começará na primeira interação do usuário.");
+                        const playOnFirstInteraction = () => {
+                            if (localStorage.getItem('bgMusicState') === 'playing') {
+                                this.bgMusic.play().catch(err => {
+                                    console.error("Não foi possível tocar a música mesmo após interação.", err);
+                                });
+                            }
+                        };
+                        document.body.addEventListener('click', playOnFirstInteraction, { once: true });
+                        document.body.addEventListener('touchstart', playOnFirstInteraction, { once: true });
+                    });
+                }
+            }
+        }
+
+        window.addEventListener('beforeunload', () => this.saveMusicState());
+        setInterval(() => this.saveMusicState(), 500);
+    }
+
+    saveMusicState() {
+        if (this.bgMusic) {
+            localStorage.setItem('bgMusicTime', this.bgMusic.currentTime);
+        }
+    }
+
+    playButtonSound() {
+        if (this.buttonSound) {
+            this.buttonSound.currentTime = 0;
+            this.buttonSound.play().catch(e => console.error("Falha ao tocar som de botão:", e));
+        }
     }
 
     signInAnonymously(callback) {
@@ -249,15 +312,18 @@ class GameManager {
             window.location.href = 'splashScreen.html';
             return;
         }
+        this.saveMusicState();
         window.location.href = `${screenId}.html?uid=${this.userId}`;
     }
 
     startAndNavigate() {
+        this.saveMusicState();
         this.navigate('mainScreen');
     }
 
     selectTool(tool) {
         if (!this.userId) return;
+        this.saveMusicState();
         window.location.href = `mainScreen.html?uid=${this.userId}&tool=${tool}`;
     }
 
@@ -278,14 +344,18 @@ class GameManager {
                     plantData.isDry = false;
                     message = "A planta está saudável novamente!";
                     stateChanged = true;
+                    if (this.plantSound) this.plantSound.play().catch(e => console.error("Falha ao tocar som de interação:", e));
                 }
             } else {
                 if (this.currentTool === 'water') {
-                    message = "A planta já está regada!";
+                    message = "A planta foi regada!";
+                    if (this.plantSound) this.plantSound.play().catch(e => console.error("Falha ao tocar som de interação:", e));
                 } else if (this.currentTool === 'prune') {
                     message = "A planta foi podada!";
+                    if (this.plantSound) this.plantSound.play().catch(e => console.error("Falha ao tocar som de interação:", e));
                 } else if (this.currentTool === 'fertilize') {
                     message = "A planta foi adubada!";
+                    if (this.plantSound) this.plantSound.play().catch(e => console.error("Falha ao tocar som de interação:", e));
                 }
             }
             if (stateChanged) this.savePlantStates();
@@ -295,26 +365,28 @@ class GameManager {
 
         if (feedbackEl && message) {
             feedbackEl.textContent = message;
+            feedbackEl.classList.remove('fade-out');
             feedbackEl.classList.add('fade-in');
             setTimeout(() => {
                 feedbackEl.classList.remove('fade-in');
                 feedbackEl.classList.add('fade-out');
-                setTimeout(() => feedbackEl.classList.remove('fade-out'), 500);
+                setTimeout(() => feedbackEl.classList.remove('fade-out'), 500); // Remove fade-out after it finishes
             }, 1500);
         }
 
-        if (this.plantSound && stateChanged) this.plantSound.play();
         this.currentTool = null;
     }
 
     setMood(mood) {
         if (!this.userId) return;
         this.lastMood = mood;
+        this.saveMusicState();
         window.location.href = `conselourScreen.html?uid=${this.userId}&mood=${mood}`;
     }
 
     openCounselorScreen() {
         if (!this.userId) return;
+        this.saveMusicState();
         this.navigate('conselourScreen');
     }
 }
@@ -323,26 +395,12 @@ const game = new GameManager();
 
 document.addEventListener('DOMContentLoaded', () => {
     game.getUserIdFromUrl();
+    game.initializeAudioControl();
 
     if (document.getElementById('mainScreen')) {
+        game.renderPlants('mainScreen');
         setInterval(() => {
             game.checkAndDryPlants();
         }, 30000);
-    }
-
-    const audioOnBtn = document.getElementById('audioOnBtn');
-    const audioOffBtn = document.getElementById('audioOffBtn');
-    const bgMusic = document.getElementById('bgMusic');
-
-    if (audioOnBtn && bgMusic) {
-        audioOnBtn.addEventListener('click', () => {
-            bgMusic.play().catch(e => console.error("Música falhou:", e));
-        });
-    }
-
-    if (audioOffBtn && bgMusic) {
-        audioOffBtn.addEventListener('click', () => {
-            bgMusic.pause();
-        });
     }
 });

@@ -74,9 +74,39 @@
             background-color: #0d9488;
         }
     </style>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <script src="game.js"></script>
 </head>
 
 <body>
+
+<audio id="bgMusic" loop src="arquivos/musica_de_fundo.mp3"></audio>
+<audio id="plantSound" src="arquivos/som_de_interacao.mp3"></audio>
+<audio id="buttonSound" src="arquivos/som_de_botao.mp3"></audio>
+
+<div class="absolute top-10 right-30 flex space-x-2 z-50">
+    <button class="p-2 rounded-full bg-green-500 text-white shadow-lg" id="audioOnBtn">
+        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+             xmlns="http://www.w3.org/2000/svg">
+            <path
+                    d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1V9a1 1 0 011-1h1.586l4.293-4.293A1 1 0 0112 4v16a1 1 0 01-1.707.707L6.586 15z"
+                    stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        </svg>
+    </button>
+    <button class="p-2 rounded-full bg-red-500 text-white shadow-lg" id="audioOffBtn">
+        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+             xmlns="http://www.w3.org/2000/svg">
+            <path
+                    d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1V9a1 1 0 011-1h1.586l4.293-4.293A1 1 0 0112 4v16a1 1 0 01-1.707.707L6.586 15z"
+                    stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+            <path d="M18.885 10.985a1 1 0 01-.06.06L14 16.985" stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"/>
+        </svg>
+    </button>
+</div>
 
 <div class="privacy-container">
     <h1 class="text-2xl sm:text-3xl">Política de Privacidade</h1>
@@ -130,20 +160,26 @@
         conosco:</p>
     <p>marcos.lindolpho@gmail.com</p>
 
-    <a class="back-button" href="#" id="backToGameBtn">Voltar ao Jogo</a>
+    <a class="back-button" href="#" id="backToGameBtn" onclick="game.playButtonSound()">Voltar ao
+        Jogo</a>
 </div>
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
+        game.initializeAudioControl();
         const backButton = document.getElementById('backToGameBtn');
         const urlParams = new URLSearchParams(window.location.search);
         const userId = urlParams.get('uid');
         if (userId) {
             backButton.href = `mainScreen.html?uid=${userId}`;
         } else {
-            // Fallback para o caso de não encontrar o UID
             backButton.href = 'index.html';
         }
+
+        backButton.addEventListener('click', (e) => {
+            game.playButtonSound();
+            game.saveMusicState();
+        });
     });
 </script>
 

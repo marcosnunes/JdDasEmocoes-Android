@@ -77,15 +77,17 @@
         </svg>
     </button>
 </div>
+
 <div class="screen active flex-col justify-center items-center p-4" id="presentationScreen">
     <div class="absolute inset-0"></div>
 </div>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        const game = new GameManager();
         game.getUserIdFromUrl();
+        game.initializeAudioControl();
 
         document.getElementById('presentationScreen').addEventListener('click', () => {
+            game.playButtonSound();
             if (game.userId) {
                 game.startAndNavigate();
             } else {
@@ -94,22 +96,6 @@
                 window.location.href = 'splashScreen.html';
             }
         });
-
-        const bgMusic = document.getElementById('bgMusic');
-        const audioOnBtn = document.getElementById('audioOnBtn');
-        const audioOffBtn = document.getElementById('audioOffBtn');
-
-        if (audioOnBtn) {
-            audioOnBtn.addEventListener('click', () => {
-                bgMusic.play().catch(e => console.error("Falha ao tocar música:", e));
-            });
-        }
-
-        if (audioOffBtn) {
-            audioOffBtn.addEventListener('click', () => {
-                bgMusic.pause();
-            });
-        }
     });
 </script>
 </body>

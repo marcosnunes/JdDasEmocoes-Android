@@ -8,12 +8,15 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.webkit.WebViewAssetLoader;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -34,39 +37,46 @@ public class FullscreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fullscreen);
 
-        // 1. Inicialize o WebView e suas configurações
         webView = findViewById(R.id.webview);
+
+        final WebViewAssetLoader assetLoader = new WebViewAssetLoader.Builder()
+                .addPathHandler("/assets/", new WebViewAssetLoader.AssetsPathHandler(this))
+                .addPathHandler("/res/", new WebViewAssetLoader.ResourcesPathHandler(this))
+                .setDomain("appassets.androidplatform.net")
+                .build();
+
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webSettings.setDomStorageEnabled(true);
         webSettings.setDatabaseEnabled(true);
+        webSettings.setMediaPlaybackRequiresUserGesture(false);
+        webSettings.setAllowFileAccess(false);
+        webSettings.setAllowContentAccess(false);
 
         webView.setWebViewClient(new WebViewClient() {
             @Override
+            public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
+                // O AssetLoader intercepta a requisição e serve o arquivo local
+                return assetLoader.shouldInterceptRequest(request.getUrl());
+            }
+
+            @Override
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
                 Log.e("WebViewError", "Error: " + description + " at URL: " + failingUrl);
-                // Opcional: mostrar uma mensagem de erro na UI ou carregar uma página local de erro
             }
         });
 
-        // 2. Inicialize o Firebase
         mAuth = FirebaseAuth.getInstance();
-
-        // 3. Obtenha ou gere o UID do usuário
         authenticateUser();
 
-        // 4. Adiciona um callback para o botão de voltar
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
                 String currentUrl = webView.getUrl();
-                // Se estiver na tela principal, mostra o diálogo para sair
                 if (currentUrl != null && currentUrl.contains("mainScreen.html")) {
                     showExitConfirmationDialog();
-                    // Se houver histórico de navegação, volte
                 } else if (webView.canGoBack()) {
                     webView.goBack();
-                    // Senão, mostra o diálogo para sair como último recurso
                 } else {
                     showExitConfirmationDialog();
                 }
@@ -75,28 +85,25 @@ public class FullscreenActivity extends AppCompatActivity {
     }
 
     private void authenticateUser() {
-        // Adição: Verificar conexão com a internet antes de tentar autenticar
         if (!hasNetworkConnection()) {
             showErrorAndExit("Sem conexão com a internet. Por favor, conecte-se e reinicie o aplicativo.");
-            // Opcional: carregar uma página HTML local de erro ou sem conexão
-            // webView.loadUrl("file:///android_asset/no_connection.html");
             return;
         }
 
         firebaseUid = getSharedPreferences().getString(PREF_FIREBASE_UID, null);
 
+        final String baseUrl = "https://appassets.androidplatform.net/assets/splashScreen.html";
+
         if (firebaseUid == null) {
-            // UID não existe, autentica-se anonimamente
             mAuth.signInAnonymously().addOnCompleteListener(this, task -> {
                 if (task.isSuccessful()) {
                     FirebaseUser user = mAuth.getCurrentUser();
                     if (user != null) {
                         firebaseUid = user.getUid();
-                        // Salva o UID localmente para uso futuro
                         getSharedPreferences().edit().putString(PREF_FIREBASE_UID, firebaseUid).apply();
                         Log.d("Firebase", "UID gerado: " + firebaseUid);
-                        // Carrega a URL com o UID
-                        webView.loadUrl("file:///android_asset/splashScreen.html?uid=" + firebaseUid);
+                        // Carrega a URL HTTPS virtual com o UID
+                        webView.loadUrl(baseUrl + "?uid=" + firebaseUid);
                     } else {
                         showErrorAndExit("Falha ao obter o UID do usuário. Reinicie o aplicativo.");
                     }
@@ -106,18 +113,15 @@ public class FullscreenActivity extends AppCompatActivity {
                 }
             });
         } else {
-            // UID já existe, carrega a URL diretamente
             Log.d("Firebase", "UID encontrado: " + firebaseUid);
-            webView.loadUrl("file:///android_asset/splashScreen.html?uid=" + firebaseUid);
+            webView.loadUrl(baseUrl + "?uid=" + firebaseUid);
         }
     }
 
-    // Obtém as preferências compartilhadas
     private SharedPreferences getSharedPreferences() {
         return getSharedPreferences("app_prefs", MODE_PRIVATE);
     }
 
-    // Mostra o diálogo de confirmação de saída
     private void showExitConfirmationDialog() {
         if (exitConfirmationDialog != null && exitConfirmationDialog.isShowing()) {
             return;
@@ -125,13 +129,16 @@ public class FullscreenActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Sair do Aplicativo")
                 .setMessage("Você tem certeza que deseja sair?")
-                .setPositiveButton("Sim", (dialog, id) -> finish())
+                .setPositiveButton("Sim", (dialog, id) -> {
+                    // ADICIONE ESTA LINHA PARA PAUSAR A MÚSICA NA WEBVIEW
+                    webView.evaluateJavascript("var music = document.getElementById('bgMusic'); if (music) { music.pause(); } localStorage.setItem('bgMusicState', 'paused');", null);
+                    finish();
+                })
                 .setNegativeButton("Não", (dialog, id) -> dialog.dismiss());
         exitConfirmationDialog = builder.create();
         exitConfirmationDialog.show();
     }
 
-    // Exibe um erro e fecha a atividade
     private void showErrorAndExit(String message) {
         if (isFinishing() || isDestroyed()) {
             return;
@@ -144,8 +151,6 @@ public class FullscreenActivity extends AppCompatActivity {
                 .show();
     }
 
-    // Verifica a conexão com a internet
-    @SuppressWarnings("deprecation")
     private boolean hasNetworkConnection() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivityManager == null) {

@@ -11,7 +11,7 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f0fdf400;
+            background-color: #dcfce7;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -149,18 +149,23 @@
 
 <div class="screen flex-col" id="mainScreen">
     <button class="corner-btn1" id="presentationBtn"
+            onclick="game.playButtonSound()"
             style="background-image: url('arquivos/BotaoApresentacao.png'); top: 4%; left: 5%;"></button>
     <button class="corner-btn2" id="diaryCornerBtn"
+            onclick="game.playButtonSound()"
             style="background-image: url('arquivos/BotaoPrivacidade.png'); top: 2%; right: 2%;"></button>
 
     <div class="feedback-text" id="plantFeedback"></div>
 
     <div class="flex items-center justify-around w-full mt-auto mb-8 absolute bottom-11 left-0">
         <button class="btn" id="diaryButton"
+                onclick="game.playButtonSound()"
                 style="background-image: url('arquivos/Botao1.png');"></button>
         <button class="btn" id="toolButton"
+                onclick="game.playButtonSound()"
                 style="background-image: url('arquivos/Botao2.png');"></button>
         <button class="btn" id="counselorButton"
+                onclick="game.playButtonSound()"
                 style="background-image: url('arquivos/Botao3.png');"></button>
     </div>
 </div>
@@ -169,32 +174,21 @@
     document.addEventListener('DOMContentLoaded', () => {
         game.getUserIdFromUrl();
 
-        const bgMusic = document.getElementById('bgMusic');
-        const audioOnBtn = document.getElementById('audioOnBtn');
-        const audioOffBtn = document.getElementById('audioOffBtn');
-
-        if (audioOnBtn && bgMusic) {
-            audioOnBtn.addEventListener('click', () => {
-                bgMusic.play().catch(e => console.error("Falha ao tocar música:", e));
-            });
+        if (localStorage.getItem('bgMusicState') === null) {
+            localStorage.setItem('bgMusicState', 'playing');
         }
-
-        if (audioOffBtn && bgMusic) {
-            audioOffBtn.addEventListener('click', () => {
-                bgMusic.pause();
-            });
-        }
+        game.initializeAudioControl();
 
         document.getElementById('presentationBtn').addEventListener('click', () => {
-            window.location.href = 'index.html?uid=' + game.userId;
+            game.navigate('index');
         });
 
         document.getElementById('diaryCornerBtn').addEventListener('click', () => {
-            window.location.href = 'privacidade.html?uid=' + game.userId;
+            game.navigate('privacidade');
         });
 
         document.getElementById('toolButton').addEventListener('click', () => {
-            window.location.href = 'toolScreen.html?uid=' + game.userId;
+            game.navigate('toolScreen');
         });
 
         document.getElementById('counselorButton').addEventListener('click', () => {
