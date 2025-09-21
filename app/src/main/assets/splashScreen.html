@@ -15,7 +15,7 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-image: url('assets/SplashScreen.png');
+            background-image: url('arquivos/SplashScreen.png');
             background-size: cover;
             background-position: center;
             color: white;
@@ -50,29 +50,37 @@
     <div class="loading-bar"></div>
 </div>
 
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+<script src="game.js"></script>
 <script>
-    const SPLASH_DURATION = 5000; // 5 segundos
-    const REDIRECT_URL = "file:///android_asset/index.html";
+    const SPLASH_DURATION = 5000;
+    const REDIRECT_URL = 'index.html';
 
     document.addEventListener('DOMContentLoaded', () => {
-        const deviceId = getUrlParameter('deviceId');
+        firebase.auth().onAuthStateChanged(user => {
+            let userId = user ? user.uid : null;
 
-        setTimeout(() => {
-            if (deviceId) {
-                window.location.href = `${REDIRECT_URL}?deviceId=${deviceId}`;
+            if (!userId) {
+                console.log("Nenhum usuário logado. Realizando login anônimo...");
+                game.signInAnonymously((newUserId) => {
+                    if (newUserId) {
+                        setTimeout(() => {
+                            window.location.href = `${REDIRECT_URL}?uid=${newUserId}`;
+                        }, SPLASH_DURATION);
+                    } else {
+                        alert("Não foi possível conectar. Verifique sua conexão e tente novamente.");
+                    }
+                });
             } else {
-                console.error("Device ID não encontrado. Não é possível redirecionar.");
+                console.log("Usuário já logado:", userId);
+                setTimeout(() => {
+                    window.location.href = `${REDIRECT_URL}?uid=${userId}`;
+                }, SPLASH_DURATION);
             }
-        }, SPLASH_DURATION);
+        });
     });
-
-    // Função auxiliar para obter parâmetros da URL
-    function getUrlParameter(name) {
-        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-        const regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
-        const results = regex.exec(window.location.search);
-        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-    }
 </script>
 </body>
 </html>

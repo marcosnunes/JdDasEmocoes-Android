@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Ferramentas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0fdf400;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            background-image: url('arquivos/telaFerramentas.png');
+        }
+
+        .screen {
+            width: 100vw;
+            height: 100vh;
+            max-width: 420px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0);
+            position: relative;
+            box-sizing: border-box;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 2px solid #10b98100;
+        }
+
+        .btn {
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            width: 25vw;
+            height: 15vw;
+            border: none;
+            cursor: pointer;
+            background-color: transparent;
+        }
+    </style>
+    <script src="game.js"></script>
+</head>
+
+<body>
+
+<div class="screen flex-col justify-end items-center" id="toolScreen">
+    <button class="btn" data-tool="water" id="waterToolBtn"
+            style="background-image: url('arquivos/Regar.png');position: absolute; top: 37%; left: -4%; width: 39vw; height: 35vw;"></button>
+    <button class="btn" data-tool="prune" id="pruneToolBtn"
+            style="background-image: url('arquivos/Podar.png');position: absolute; top: 37%; left: 30.5%; width: 39vw; height: 35vw;"></button>
+    <button class="btn" data-tool="fertilize" id="fertilizeToolBtn"
+            style="background-image: url('arquivos/Adubar.png');position: absolute; top: 37%; left: 64%; width: 39vw; height: 35vw;"></button>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const userId = urlParams.get('uid'); // Corrigido para 'uid'
+
+        document.getElementById('waterToolBtn').addEventListener('click', (e) => {
+            window.location.href = 'mainScreen.html?uid=' + userId + '&tool=' + e.currentTarget.dataset.tool;
+        });
+
+        document.getElementById('pruneToolBtn').addEventListener('click', (e) => {
+            window.location.href = 'mainScreen.html?uid=' + userId + '&tool=' + e.currentTarget.dataset.tool;
+        });
+
+        document.getElementById('fertilizeToolBtn').addEventListener('click', (e) => {
+            window.location.href = 'mainScreen.html?uid=' + userId + '&tool=' + e.currentTarget.dataset.tool;
+        });
+    });
+</script>
+</body>
+</html>

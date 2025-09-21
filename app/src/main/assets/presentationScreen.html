@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>O Jardim das Emoções</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0fdf400;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .screen {
+            display: flex;
+            width: 100vw;
+            height: 100vh;
+            max-width: 420px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0);
+            position: relative;
+            box-sizing: border-box;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 2px solid #10b98100;
+            background-size: cover;
+            background-position: center;
+        }
+
+        #presentationScreen {
+            background-image: url('arquivos/telaApresentacao.png');
+        }
+    </style>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <script src="game.js"></script>
+</head>
+<body>
+<div class="screen flex-col justify-center items-center p-4" id="presentationScreen">
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const game = new GameManager();
+        game.getUserIdFromUrl();
+
+        document.getElementById('presentationScreen').addEventListener('click', () => {
+            if (game.userId) {
+                game.startAndNavigate();
+            } else {
+                console.error("User ID não disponível, não foi possível iniciar o jogo.");
+                alert("Ocorreu um erro ao carregar seu perfil. Por favor, tente novamente.");
+                window.location.href = 'splashScreen.html';
+            }
+        });
+    });
+</script>
+</body>
+</html>

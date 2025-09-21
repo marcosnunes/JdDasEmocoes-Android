@@ -52,7 +52,7 @@
             margin-left: 2rem;
             margin-bottom: 1rem;
         }
-        
+
         li {
             color: #4b5563;
             margin-bottom: 0.5rem;
@@ -130,8 +130,22 @@
         conosco:</p>
     <p>marcos.lindolpho@gmail.com</p>
 
-    <a class="back-button" href="index.html#mainScreen">Voltar ao Jogo</a>
+    <a class="back-button" href="#" id="backToGameBtn">Voltar ao Jogo</a>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const backButton = document.getElementById('backToGameBtn');
+        const urlParams = new URLSearchParams(window.location.search);
+        const userId = urlParams.get('uid');
+        if (userId) {
+            backButton.href = `mainScreen.html?uid=${userId}`;
+        } else {
+            // Fallback para o caso de não encontrar o UID
+            backButton.href = 'index.html';
+        }
+    });
+</script>
 
 </body>
 
