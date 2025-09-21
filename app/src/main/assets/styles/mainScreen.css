@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
+.screen {
+    width: 100vw;
+    height: 100vh;
+    max-width: 420px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0);
+    position: relative;
+    box-sizing: border-box;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 2px solid #10b98100;
+}
+
+.plant {
+    cursor: pointer;
+    transition: transform 0.2s, filter 0.2s;
+    position: absolute;
+}
+
+.plant:hover {
+    transform: scale(1.05);
+    filter: brightness(1.1);
+}
+
+.feedback-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    opacity: 0;
+    transition: opacity 0.5s;
+    z-index: 10;
+}
+
+.fade-in {
+    animation: fadeIn 0.5s forwards;
+}
+
+.fade-out {
+    animation: fadeOut 0.5s forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translate(-50%, -50%);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translate(-50%, -50%);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: scale(1) translate(-50%, -50%);
+    }
+
+    to {
+        opacity: 0;
+        transform: scale(0.9) translate(-50%, -50%);
+    }
+}
+
+.btn {
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 25vw;
+    height: 15vw;
+    border: none;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+.corner-btn1 {
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 12vw;
+    height: 12vw;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    background-color: transparent;
+}
+
+.corner-btn2 {
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 20vw;
+    height: 20vw;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    background-color: transparent;
+}

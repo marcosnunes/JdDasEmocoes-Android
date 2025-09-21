@@ -1,119 +1,15 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-
 <head>
-    <meta charset="UTF-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Política de Privacidade - O Jardim das Emoções</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f0fdf4;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            overflow: auto;
-            padding: 2rem;
-            box-sizing: border-box;
-        }
-
-        .privacy-container {
-            background-color: #fff;
-            padding: 2rem;
-            border-radius: 20px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            max-width: 800px;
-            width: 100%;
-            text-align: left;
-            border: 2px solid #10b981;
-            overflow-y: auto;
-            max-height: 90vh;
-        }
-
-        h1, h2 {
-            color: #10b981;
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-
-        p {
-            color: #4b5563;
-            line-height: 1.6;
-            margin-bottom: 1rem;
-        }
-
-        ul {
-            list-style: disc;
-            margin-left: 2rem;
-            margin-bottom: 1rem;
-        }
-
-        li {
-            color: #4b5563;
-            margin-bottom: 0.5rem;
-        }
-
-        .back-button {
-            display: inline-block;
-            margin-top: 1.5rem;
-            background-color: #10b981;
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border-radius: 9999px;
-            text-decoration: none;
-            font-weight: 700;
-            transition: background-color 0.3s;
-        }
-
-        .back-button:hover {
-            background-color: #0d9488;
-        }
-    </style>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-    <script src="game.js"></script>
+    <link href="styles/privacidade.css" rel="stylesheet">
+    <title>Privacy Screen</title>
 </head>
-
-<body>
-
-<audio id="bgMusic" loop src="arquivos/musica_de_fundo.mp3"></audio>
-<audio id="plantSound" src="arquivos/som_de_interacao.mp3"></audio>
-<audio id="buttonSound" src="arquivos/som_de_botao.mp3"></audio>
-
-<div class="absolute top-10 right-30 flex space-x-2 z-50">
-    <button class="p-2 rounded-full bg-green-500 text-white shadow-lg" id="audioOnBtn">
-        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-             xmlns="http://www.w3.org/2000/svg">
-            <path
-                    d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1V9a1 1 0 011-1h1.586l4.293-4.293A1 1 0 0112 4v16a1 1 0 01-1.707.707L6.586 15z"
-                    stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
-        </svg>
-    </button>
-    <button class="p-2 rounded-full bg-red-500 text-white shadow-lg" id="audioOffBtn">
-        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-             xmlns="http://www.w3.org/2000/svg">
-            <path
-                    d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1V9a1 1 0 011-1h1.586l4.293-4.293A1 1 0 0112 4v16a1 1 0 01-1.707.707L6.586 15z"
-                    stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
-            <path d="M18.885 10.985a1 1 0 01-.06.06L14 16.985" stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"/>
-        </svg>
-    </button>
-</div>
 
 <div class="privacy-container">
     <h1 class="text-2xl sm:text-3xl">Política de Privacidade</h1>
     <p>A sua privacidade é de extrema importância para nós. A Política de Privacidade do jogo
         <strong>"O Jardim das Emoções"</strong> foi criada para ser transparente sobre como lidamos
         com os dados dos usuários. Nosso objetivo é oferecer uma experiência segura, privada e
-        focada no bem-estar.</p>
+        focada no bem-estar.
+    </p>
 
     <h2 class="text-xl sm:text-2xl mt-6">1. Coleta de Informações</h2>
     <p>O jogo <strong>não coleta, armazena ou transmite qualquer informação pessoalmente
@@ -124,7 +20,8 @@
     <p>O jogo utiliza o <strong>Firebase Authentication</strong> para autenticação anônima,
         permitindo que você acesse e salve seus dados do diário de forma segura. Além disso, o
         <strong>Firebase Realtime Database</strong> é usado para armazenar as entradas do seu diário
-        e o estado do seu jardim virtual (como as plantas estão saudáveis ou secas).</p>
+        e o estado do seu jardim virtual (como as plantas estão saudáveis ou secas).
+    </p>
     <p>Apesar do uso do Firebase, a sua privacidade é a nossa prioridade máxima. Os dados são salvos
         de forma que <strong>ninguém, nem mesmo nós, pode ler ou acessá-los</strong>.</p>
     <ul>
@@ -160,29 +57,4 @@
         conosco:</p>
     <p>marcos.lindolpho@gmail.com</p>
 
-    <a class="back-button" href="#" id="backToGameBtn" onclick="game.playButtonSound()">Voltar ao
-        Jogo</a>
 </div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        game.initializeAudioControl();
-        const backButton = document.getElementById('backToGameBtn');
-        const urlParams = new URLSearchParams(window.location.search);
-        const userId = urlParams.get('uid');
-        if (userId) {
-            backButton.href = `mainScreen.html?uid=${userId}`;
-        } else {
-            backButton.href = 'index.html';
-        }
-
-        backButton.addEventListener('click', (e) => {
-            game.playButtonSound();
-            game.saveMusicState();
-        });
-    });
-</script>
-
-</body>
-
-</html>

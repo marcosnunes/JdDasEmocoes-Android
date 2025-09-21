@@ -1,215 +1,22 @@
-<!DOCTYPE html>
-<html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>O Jardim das Emoções</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #dcfce7;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            overflow: hidden;
-            background-size: cover;
-            background-position: center;
-            background-image: url('arquivos/background.png');
-        }
-
-        .screen {
-            width: 100vw;
-            height: 100vh;
-            max-width: 420px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0);
-            position: relative;
-            box-sizing: border-box;
-            border-radius: 20px;
-            overflow: hidden;
-            border: 2px solid #10b98100;
-        }
-
-        .plant {
-            cursor: pointer;
-            transition: transform 0.2s, filter 0.2s;
-            position: absolute;
-        }
-
-        .plant:hover {
-            transform: scale(1.05);
-            filter: brightness(1.1);
-        }
-
-        .feedback-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: rgba(0, 0, 0, 0.6);
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 9999px;
-            opacity: 0;
-            transition: opacity 0.5s;
-            z-index: 10;
-        }
-
-        .fade-in {
-            animation: fadeIn 0.5s forwards;
-        }
-
-        .fade-out {
-            animation: fadeOut 0.5s forwards;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.9) translate(-50%, -50%); }
-            to { opacity: 1; transform: scale(1) translate(-50%, -50%); }
-        }
-
-        @keyframes fadeOut {
-            from { opacity: 1; transform: scale(1) translate(-50%, -50%); }
-            to { opacity: 0; transform: scale(0.9) translate(-50%, -50%); }
-        }
-
-        .btn {
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-            width: 25vw;
-            height: 15vw;
-            border: none;
-            cursor: pointer;
-            background-color: transparent;
-        }
-
-        .corner-btn1 {
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-            width: 12vw;
-            height: 12vw;
-            border: none;
-            cursor: pointer;
-            position: absolute;
-            background-color: transparent;
-        }
-
-        .corner-btn2 {
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-            width: 20vw;
-            height: 20vw;
-            border: none;
-            cursor: pointer;
-            position: absolute;
-            background-color: transparent;
-        }
-    </style>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-    <script src="game.js"></script>
+    <link href="styles/mainScreen.css" rel="stylesheet">
+    <title>Main Screen</title>
 </head>
 
-<body>
-
-<audio id="bgMusic" loop src="arquivos/musica_de_fundo.mp3"></audio>
-<audio id="plantSound" src="arquivos/som_de_interacao.mp3"></audio>
-<audio id="buttonSound" src="arquivos/som_de_botao.mp3"></audio>
-
-<div class="absolute top-10 right-30 flex space-x-2 z-50">
-    <button class="p-2 rounded-full bg-green-500 text-white shadow-lg" id="audioOnBtn">
-        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-             xmlns="http://www.w3.org/2000/svg">
-            <path
-                    d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1V9a1 1 0 011-1h1.586l4.293-4.293A1 1 0 0112 4v16a1 1 0 01-1.707.707L6.586 15z"
-                    stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
-        </svg>
-    </button>
-    <button class="p-2 rounded-full bg-red-500 text-white shadow-lg" id="audioOffBtn">
-        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-             xmlns="http://www.w3.org/2000/svg">
-            <path
-                    d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1V9a1 1 0 011-1h1.586l4.293-4.293A1 1 0 0112 4v16a1 1 0 01-1.707.707L6.586 15z"
-                    stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
-            <path d="M18.885 10.985a1 1 0 01-.06.06L14 16.985" stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"/>
-        </svg>
-    </button>
-</div>
-
 <div class="screen flex-col" id="mainScreen">
-    <button class="corner-btn1" id="presentationBtn"
-            onclick="game.playButtonSound()"
+    <button class="corner-btn1" id="presentationBtn" onclick="game.playButtonSound()"
             style="background-image: url('arquivos/BotaoApresentacao.png'); top: 4%; left: 5%;"></button>
-    <button class="corner-btn2" id="diaryCornerBtn"
-            onclick="game.playButtonSound()"
+    <button class="corner-btn2" id="diaryCornerBtn" onclick="game.playButtonSound()"
             style="background-image: url('arquivos/BotaoPrivacidade.png'); top: 2%; right: 2%;"></button>
 
     <div class="feedback-text" id="plantFeedback"></div>
 
     <div class="flex items-center justify-around w-full mt-auto mb-8 absolute bottom-11 left-0">
-        <button class="btn" id="diaryButton"
-                onclick="game.playButtonSound()"
+        <button class="btn" id="diaryButton" onclick="game.playButtonSound()"
                 style="background-image: url('arquivos/Botao1.png');"></button>
-        <button class="btn" id="toolButton"
-                onclick="game.playButtonSound()"
+        <button class="btn" id="toolButton" onclick="game.playButtonSound()"
                 style="background-image: url('arquivos/Botao2.png');"></button>
-        <button class="btn" id="counselorButton"
-                onclick="game.playButtonSound()"
+        <button class="btn" id="counselorButton" onclick="game.playButtonSound()"
                 style="background-image: url('arquivos/Botao3.png');"></button>
     </div>
 </div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        game.getUserIdFromUrl();
-
-        if (localStorage.getItem('bgMusicState') === null) {
-            localStorage.setItem('bgMusicState', 'playing');
-        }
-        game.initializeAudioControl();
-
-        document.getElementById('presentationBtn').addEventListener('click', () => {
-            game.navigate('index');
-        });
-
-        document.getElementById('diaryCornerBtn').addEventListener('click', () => {
-            game.navigate('privacidade');
-        });
-
-        document.getElementById('toolButton').addEventListener('click', () => {
-            game.navigate('toolScreen');
-        });
-
-        document.getElementById('counselorButton').addEventListener('click', () => {
-            game.openCounselorScreen();
-        });
-
-        document.getElementById('diaryButton').addEventListener('click', () => {
-            game.navigate('diaryScreen');
-        });
-
-        const mainScreen = document.getElementById('mainScreen');
-        mainScreen.addEventListener('click', (e) => {
-            if (e.target.classList.contains('plant')) {
-                game.interactWithPlant(e);
-            }
-        });
-
-        const urlParams = new URLSearchParams(window.location.search);
-        game.currentTool = urlParams.get('tool');
-    });
-</script>
-
-</body>
-</html>

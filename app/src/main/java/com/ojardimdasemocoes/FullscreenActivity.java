@@ -56,7 +56,6 @@ public class FullscreenActivity extends AppCompatActivity {
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
-                // O AssetLoader intercepta a requisição e serve o arquivo local
                 return assetLoader.shouldInterceptRequest(request.getUrl());
             }
 
@@ -72,14 +71,11 @@ public class FullscreenActivity extends AppCompatActivity {
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                String currentUrl = webView.getUrl();
-                if (currentUrl != null && currentUrl.contains("mainScreen.html")) {
-                    showExitConfirmationDialog();
-                } else if (webView.canGoBack()) {
-                    webView.goBack();
-                } else {
-                    showExitConfirmationDialog();
-                }
+                webView.evaluateJavascript("game.handleBackPress();", value -> {
+                    if ("false".equals(value)) {
+                        showExitConfirmationDialog();
+                    }
+                });
             }
         });
     }
@@ -92,7 +88,7 @@ public class FullscreenActivity extends AppCompatActivity {
 
         firebaseUid = getSharedPreferences().getString(PREF_FIREBASE_UID, null);
 
-        final String baseUrl = "https://appassets.androidplatform.net/assets/splashScreen.html";
+        final String baseUrl = "https://appassets.androidplatform.net/assets/main.html";
 
         if (firebaseUid == null) {
             mAuth.signInAnonymously().addOnCompleteListener(this, task -> {

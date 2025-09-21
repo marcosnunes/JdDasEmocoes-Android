@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
+.screen {
+    width: 100vw;
+    height: 100vh;
+    max-width: 420px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0);
+    position: relative;
+    box-sizing: border-box;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 2px solid #10b98100;
+}
+
+.mood-btn {
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 18vw;
+    height: 9vw;
+    border: none;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+#diarySaveFeedback {
+    position: absolute;
+    bottom: 25%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #22c55e;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    opacity: 0;
+    transition: opacity 0.5s;
+    font-size: 0.875rem;
+    z-index: 10;
+}
+
+#diarySaveFeedback.show {
+    opacity: 1;
+}

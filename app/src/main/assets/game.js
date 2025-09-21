@@ -95,6 +95,189 @@ class GameManager {
             { id: 'plant10', name: 'Planta10', src: 'arquivos/Planta10.png', drySrc: 'arquivos/PlantasSecas/Planta10.png', style: 'top: 69%; left: 48%; width: 10vw; height: 10vw;', isDry: false },
             { id: 'plant11', name: 'Planta11', src: 'arquivos/Planta11.png', drySrc: 'arquivos/PlantasSecas/Planta11.png', style: 'top: 74%; left: 70%; width: 10vw; height: 10vw;', isDry: false }
         ];
+        this.currentPage = '';
+        this.navigationHistory = [];
+        this.isFirstLoad = true;
+    }
+
+    playMusic() {
+        if (!this.bgMusic) return;
+
+        localStorage.setItem('bgMusicState', 'playing');
+        const playPromise = this.bgMusic.play();
+
+        if (playPromise !== undefined) {
+            playPromise.catch(error => {
+                console.warn("Autoplay bloqueado. A música começará na primeira interação do usuário.", error);
+                const playOnFirstInteraction = () => {
+                    if (localStorage.getItem('bgMusicState') === 'playing') {
+                        this.bgMusic.play().catch(err => {
+                            console.error("Não foi possível tocar a música mesmo após interação.", err);
+                        });
+                    }
+                };
+                document.body.addEventListener('click', playOnFirstInteraction, { once: true });
+                document.body.addEventListener('touchstart', playOnFirstInteraction, { once: true });
+            });
+        }
+    }
+
+    pauseMusic() {
+        if (!this.bgMusic) return;
+        localStorage.setItem('bgMusicState', 'paused');
+        this.bgMusic.pause();
+    }
+
+    executePageScripts(pageUrl) {
+        const params = new URLSearchParams(pageUrl.split('?')[1]);
+        const cleanPageUrl = pageUrl.split('?')[0];
+
+        const backgrounds = {
+            'splashScreen.html': "url('arquivos/splashScreen.png')",
+            'mainScreen.html': "url('arquivos/background.png')",
+            'diaryScreen.html': "url('arquivos/telaDiario.png')",
+            'toolScreen.html': "url('arquivos/telaFerramentas.png')",
+            'presentationScreen.html': "url('arquivos/telaApresentacao.png')",
+            'privacidade.html': 'none',
+            'conselourScreen.html': 'dynamic'
+        };
+
+        const backgroundStyle = backgrounds[cleanPageUrl];
+
+        if (backgroundStyle) {
+            if (backgroundStyle === 'dynamic') {
+                const randomIndex = Math.floor(Math.random() * this.counselorBackgrounds.length);
+                const randomBackground = this.counselorBackgrounds[randomIndex];
+                document.body.style.backgroundImage = `url('${randomBackground}')`;
+            } else {
+                document.body.style.backgroundImage = backgroundStyle;
+            }
+        }
+
+        switch (cleanPageUrl) {
+            case 'splashScreen.html':
+                setTimeout(() => {
+                    this.navigate('mainScreen');
+                }, 5000);
+                break;
+
+            case 'mainScreen.html':
+                let musicState = localStorage.getItem('bgMusicState');
+                if (musicState === null) {
+                    localStorage.setItem('bgMusicState', 'playing');
+                    musicState = 'playing';
+                }
+                if (musicState === 'playing') {
+                    this.playMusic();
+                }
+                if (this.isFirstLoad) {
+                    this.isFirstLoad = false;
+                }
+                this.currentTool = params.get('tool');
+                this.renderPlants('mainScreen');
+                if (!window.plantDryInterval) {
+                    window.plantDryInterval = setInterval(() => this.checkAndDryPlants(), 30000);
+                }
+                document.getElementById('presentationBtn').addEventListener('click', () => this.navigate('presentationScreen'));
+                document.getElementById('diaryCornerBtn').addEventListener('click', () => this.navigate('privacidade'));
+                document.getElementById('toolButton').addEventListener('click', () => this.navigate('toolScreen'));
+                document.getElementById('counselorButton').addEventListener('click', () => this.openCounselorScreen());
+                document.getElementById('diaryButton').addEventListener('click', () => this.navigate('diaryScreen'));
+                document.getElementById('mainScreen').addEventListener('click', (e) => {
+                    if (e.target.classList.contains('plant')) {
+                        this.interactWithPlant(e);
+                    }
+                });
+                break;
+
+            case 'diaryScreen.html':
+                this.loadDiary();
+                document.getElementById('diaryTextarea').addEventListener('input', () => this.saveDiary());
+                document.querySelectorAll('.mood-btn').forEach(button => {
+                    button.addEventListener('click', (e) => this.setMood(e.currentTarget.dataset.mood));
+                });
+                break;
+
+            case 'toolScreen.html':
+                document.getElementById('waterToolBtn').addEventListener('click', (e) => this.selectTool(e.currentTarget.dataset.tool));
+                document.getElementById('pruneToolBtn').addEventListener('click', (e) => this.selectTool(e.currentTarget.dataset.tool));
+                document.getElementById('fertilizeToolBtn').addEventListener('click', (e) => this.selectTool(e.currentTarget.dataset.tool));
+                break;
+
+            case 'conselourScreen.html':
+                const mood = params.get('mood');
+                let message = "Olá, como você se sente hoje?";
+                if (mood && this.conselheiroMessages[mood]) {
+                    const messages = this.conselheiroMessages[mood];
+                    message = messages[Math.floor(Math.random() * messages.length)];
+                } else {
+                    const allMessages = Object.values(this.conselheiroMessages).flat();
+                    message = allMessages[Math.floor(Math.random() * allMessages.length)];
+                }
+                document.getElementById('counselorMessage').textContent = message;
+                break;
+
+            case 'presentationScreen.html':
+                document.getElementById('presentationScreen').addEventListener('click', () => this.startAndNavigate());
+                break;
+
+            case 'privacidade.html':
+                document.getElementById('backToGameBtn').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.navigate('mainScreen');
+                });
+                break;
+        }
+    }
+
+    async loadPage(pageUrl) {
+        if (!this.userId && pageUrl !== 'splashScreen.html') {
+            console.error("User ID não encontrado. Navegação abortada.");
+            return;
+        }
+
+        try {
+            const pageName = pageUrl.split('?')[0].split('.')[0];
+            const fragmentUrl = `${pageName}.html`;
+
+            const response = await fetch(fragmentUrl);
+            if (!response.ok) {
+                throw new Error(`Erro ao carregar o fragmento: ${response.statusText}`);
+            }
+            const pageContent = await response.text();
+            const container = document.getElementById('app-container');
+            container.innerHTML = pageContent;
+
+            container.style.backgroundImage = '';
+
+            const oldStylesheet = document.getElementById('page-stylesheet');
+            if (oldStylesheet) {
+                oldStylesheet.remove();
+            }
+
+            const newStylesheet = document.createElement('link');
+            newStylesheet.id = 'page-stylesheet';
+            newStylesheet.rel = 'stylesheet';
+            newStylesheet.href = `${pageName}.css`;
+            document.head.appendChild(newStylesheet);
+
+            this.currentPage = pageUrl;
+            this.executePageScripts(pageUrl);
+
+        } catch (error) {
+            console.error('Falha ao carregar a página:', error);
+        }
+    }
+
+    handleBackPress() {
+        if (this.currentPage.includes('mainScreen.html')) {
+            return false;
+        }
+        if (this.navigationHistory.length > 1) {
+            return true;
+        }
+        this.navigate('mainScreen');
+        return true;
     }
 
     initializeAudioControl() {
@@ -106,17 +289,11 @@ class GameManager {
         const audioOffBtn = document.getElementById('audioOffBtn');
 
         if (audioOnBtn) {
-            audioOnBtn.addEventListener('click', () => {
-                localStorage.setItem('bgMusicState', 'playing');
-                if (this.bgMusic) this.bgMusic.play().catch(e => console.error("Falha ao tocar música:", e));
-            });
+            audioOnBtn.addEventListener('click', () => this.playMusic());
         }
 
         if (audioOffBtn) {
-            audioOffBtn.addEventListener('click', () => {
-                localStorage.setItem('bgMusicState', 'paused');
-                if (this.bgMusic) this.bgMusic.pause();
-            });
+            audioOffBtn.addEventListener('click', () => this.pauseMusic());
         }
 
         if (this.bgMusic) {
@@ -124,22 +301,7 @@ class GameManager {
             this.bgMusic.currentTime = parseFloat(localStorage.getItem('bgMusicTime')) || 0;
 
             if (musicState === 'playing') {
-                const playPromise = this.bgMusic.play();
-
-                if (playPromise !== undefined) {
-                    playPromise.catch(error => {
-                        console.warn("Autoplay bloqueado. A música começará na primeira interação do usuário.");
-                        const playOnFirstInteraction = () => {
-                            if (localStorage.getItem('bgMusicState') === 'playing') {
-                                this.bgMusic.play().catch(err => {
-                                    console.error("Não foi possível tocar a música mesmo após interação.", err);
-                                });
-                            }
-                        };
-                        document.body.addEventListener('click', playOnFirstInteraction, { once: true });
-                        document.body.addEventListener('touchstart', playOnFirstInteraction, { once: true });
-                    });
-                }
+                this.playMusic();
             }
         }
 
@@ -308,23 +470,17 @@ class GameManager {
     }
 
     navigate(screenId) {
-        if (!this.userId) {
-            window.location.href = 'splashScreen.html';
-            return;
-        }
-        this.saveMusicState();
-        window.location.href = `${screenId}.html?uid=${this.userId}`;
+        const targetUrl = `${screenId}.html`;
+        this.loadPage(targetUrl);
     }
 
     startAndNavigate() {
-        this.saveMusicState();
         this.navigate('mainScreen');
     }
 
     selectTool(tool) {
         if (!this.userId) return;
-        this.saveMusicState();
-        window.location.href = `mainScreen.html?uid=${this.userId}&tool=${tool}`;
+        this.loadPage(`mainScreen.html?tool=${tool}`);
     }
 
     interactWithPlant(event) {
@@ -370,7 +526,7 @@ class GameManager {
             setTimeout(() => {
                 feedbackEl.classList.remove('fade-in');
                 feedbackEl.classList.add('fade-out');
-                setTimeout(() => feedbackEl.classList.remove('fade-out'), 500); // Remove fade-out after it finishes
+                setTimeout(() => feedbackEl.classList.remove('fade-out'), 500);
             }, 1500);
         }
 
@@ -380,27 +536,13 @@ class GameManager {
     setMood(mood) {
         if (!this.userId) return;
         this.lastMood = mood;
-        this.saveMusicState();
-        window.location.href = `conselourScreen.html?uid=${this.userId}&mood=${mood}`;
+        this.loadPage(`conselourScreen.html?mood=${mood}`);
     }
 
     openCounselorScreen() {
         if (!this.userId) return;
-        this.saveMusicState();
         this.navigate('conselourScreen');
     }
 }
 
 const game = new GameManager();
-
-document.addEventListener('DOMContentLoaded', () => {
-    game.getUserIdFromUrl();
-    game.initializeAudioControl();
-
-    if (document.getElementById('mainScreen')) {
-        game.renderPlants('mainScreen');
-        setInterval(() => {
-            game.checkAndDryPlants();
-        }, 30000);
-    }
-});
