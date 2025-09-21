@@ -18,6 +18,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.Objects;
+
 public class FullscreenActivity extends AppCompatActivity {
 
     private static final String PREF_FIREBASE_UID = "firebase_uid";
@@ -99,7 +101,7 @@ public class FullscreenActivity extends AppCompatActivity {
                         showErrorAndExit("Falha ao obter o UID do usuário. Reinicie o aplicativo.");
                     }
                 } else {
-                    Log.e("Firebase", "Falha na autenticação Firebase: " + task.getException().getMessage());
+                    Log.e("Firebase", "Falha na autenticação Firebase: " + Objects.requireNonNull(task.getException()).getMessage());
                     showErrorAndExit("Falha ao autenticar com o Firebase. Por favor, reinicie o aplicativo.");
                 }
             });
