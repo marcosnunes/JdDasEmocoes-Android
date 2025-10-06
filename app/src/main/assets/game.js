@@ -34,7 +34,27 @@ class GameManager {
                 "Sua alegria é o sol que nutre o crescimento de todo o seu jardim.",
                 "Cultivar a felicidade não é uma tarefa, é uma recompensa. Aproveite este momento.",
                 "Lembre-se de todas as pequenas vitórias que te levaram a este estado de paz e felicidade.",
-                "Um jardim florido é o reflexo de um coração feliz. Parabéns por cuidar bem de si mesmo."
+                "Um jardim florido é o reflexo de um coração feliz. Parabéns por cuidar bem de si mesmo.",
+                "A luz da sua felicidade ilumina o caminho de quem está perto.",
+                "Floresça onde quer que a vida te plante, com um sorriso no rosto e paz no coração.",
+                "Sua alma é um jardim secreto, repleto de flores de pura alegria e inspiração.",
+                "Que a melodia da sua felicidade continue a embalar os seus dias com doçura.",
+                "Sinta a brisa suave da alegria que abraça o seu espírito a cada amanhecer.",
+                "A felicidade é um presente que você dá a si mesmo, colhendo o melhor da vida.",
+                "Deixe sua alegria contagiar o mundo, como um sol que irradia em cada canto.",
+                "A sua força interior é a nascente de toda a felicidade que você irradia.",
+                "Regue sua alma com pensamentos positivos e veja a felicidade florescer sem parar.",
+                "Desfrute da simplicidade, pois nela reside a mais pura e verdadeira felicidade.",
+                "A gratidão é a chave que abre as portas para um jardim de felicidade sem fim.",
+                "Sinta a leveza da alegria preencher seu ser, tornando cada dia uma celebração.",
+                "Permita que a felicidade seja o seu guia, mostrando o caminho para novas descobertas.",
+                "Celebre cada instante, pois a vida é uma festa e você é o convidado de honra.",
+                "A sua risada é a mais linda canção que ecoa em seu jardim de emoções.",
+                "Encontre a beleza em cada detalhe, e a felicidade se revelará em sua plenitude.",
+                "Deixe o seu coração dançar ao ritmo da alegria, livre e leve como uma borboleta.",
+                "A felicidade é a arte de viver com leveza, colorindo o mundo com suas cores.",
+                "Que a paz e a alegria sejam as sementes que você planta em cada novo dia.",
+                "Sua jornada é um poema de felicidade, escrito com cada passo e cada sorriso."
             ],
             "Triste": [
                 "É normal se sentir triste às vezes. Permita-se sentir e saiba que, como a chuva para as flores, a tristeza nutre a sua força.",
@@ -46,7 +66,27 @@ class GameManager {
                 "A tristeza é um sinal de que algo precisa de sua atenção. O que seu coração está tentando te dizer?",
                 "Pequenas sementes de esperança podem ser plantadas mesmo em solo triste. O que você pode fazer por si mesmo hoje?",
                 "Seja gentil consigo mesmo. Ninguém espera que você floresça o tempo todo.",
-                "A dor de hoje pode se transformar na força de amanhã. Dê a si mesmo o espaço para respirar."
+                "A dor de hoje pode se transformar na força de amanhã. Dê a si mesmo o espaço para respirar.",
+                "Permita-se sentir a melancolia, ela também faz parte do seu jardim de emoções.",
+                "Como a noite escura precede o amanhecer, a tristeza precede a nova esperança.",
+                "Não se apresse em afastar a tristeza, às vezes ela traz mensagens importantes.",
+                "Em meio à escuridão, pequenas luzes de esperança podem começar a brilhar.",
+                "Suas lágrimas são como a chuva que rega a terra, preparando-a para novos brotos.",
+                "Abrace sua vulnerabilidade, ela é uma parte essencial da sua jornada de crescimento.",
+                "Mesmo no vazio, há espaço para a serenidade e para encontrar seu próprio ritmo.",
+                "A tristeza não é o fim, mas um convite para olhar para dentro e se fortalecer.",
+                "Assim como as estações, suas emoções mudam. A primavera virá novamente.",
+                "Não carregue a dor sozinho. Compartilhar pode aliviar o peso e trazer conforto.",
+                "Encontre refúgio na calma. A tristeza pode ser um momento de paz e introspecção.",
+                "As sombras podem ser grandes mestras, ensinando sobre a luz que você carrega.",
+                "Não ignore o que seu coração sussurra. Ele sabe o caminho para a cura e o renascimento.",
+                "A dor não define quem você é, mas a forma como você a supera, sim.",
+                "Pequenos gestos de autocuidado são como raios de sol em um dia cinzento.",
+                "Mesmo com o coração pesado, você ainda tem a força para seguir em frente.",
+                "A quietude da tristeza pode ser um portal para um profundo autoconhecimento.",
+                "Dê a si mesmo o presente do tempo. A cura é um processo, não um evento.",
+                "Sua resiliência é como uma árvore forte, que permanece de pé mesmo nas tempestades.",
+                "Lembre-se que a vida tem ciclos, e a beleza está em aceitar cada um deles."
             ],
             "Estressado": [
                 "O estresse pode ser um espinho, mas você é mais forte do que ele. Respire fundo e plante um momento de paz.",
@@ -58,7 +98,27 @@ class GameManager {
                 "O vento forte do estresse pode balançar suas plantas. Segure-se firme, você é a raiz mais forte do seu jardim.",
                 "Lembre-se de que a perfeição não é um requisito para florescer. Relaxe um pouco e as coisas se ajustarão.",
                 "Seu jardim precisa de tranquilidade para florescer. Encontre um momento só seu para restaurar a paz interior.",
-                "O estresse é apenas um visitante. Não o deixe se instalar. Respire fundo e convide a calma para ficar."
+                "O estresse é apenas um visitante. Não o deixe se instalar. Respire fundo e convide a calma para ficar.",
+                "Desconecte-se do barulho exterior e reconecte-se com a sua essência.",
+                "Respire profundamente. Deixe o ar renovar sua mente e acalmar seu corpo.",
+                "O excesso de pensamentos é como nuvens escuras. Deixe-os passar e o sol aparecerá.",
+                "Priorize o que realmente importa e liberte-se do peso desnecessário.",
+                "Encontre seu oásis de tranquilidade, mesmo que seja por poucos minutos.",
+                "Não se exija demais. A perfeição é um ideal, não uma obrigação.",
+                "O estresse é um sinal para desacelerar. Ouça seu corpo e sua mente.",
+                "Pequenas pausas ao longo do dia são como regar sua alma. Não as negligencie.",
+                "Imagine-se em um lugar de paz. Deixe essa imagem acalmar seus sentidos.",
+                "Livre-se da necessidade de controlar tudo. Algumas coisas estão fora do seu alcance.",
+                "Concentre-se no presente. O futuro ainda não chegou e o passado já se foi.",
+                "Sua mente merece um jardim de paz, livre de preocupações e ansiedades.",
+                "Aprenda a dizer 'não' quando for necessário. Seu bem-estar é prioridade.",
+                "Deixe a natureza te abraçar. Um passeio pode renovar suas energias.",
+                "A cada expiração, libere uma preocupação. A cada inspiração, receba calma.",
+                "Não se afogue em um copo d'água. Encontre a perspectiva e respire fundo.",
+                "Sua energia é preciosa. Use-a com sabedoria, sem desperdícios.",
+                "O estresse é um sinal de alerta, não uma sentença. Reaja com autocuidado.",
+                "Crie um santuário de paz em sua mente, onde você pode se refugiar.",
+                "Lembre-se que você é capaz de superar qualquer desafio, com calma e foco."
             ],
             "Cansado": [
                 "O cansaço é um sinal de que você se dedicou. Descanse, recarregue as energias e volte a florescer amanhã.",
@@ -70,7 +130,27 @@ class GameManager {
                 "O cansaço é um lembrete de que você é humano. Seja gentil consigo e priorize sua paz.",
                 "Dormir é como regar o seu jardim interior. Quanto mais você descansa, mais suas emoções podem florescer.",
                 "Um momento de silêncio e um bom descanso podem fazer maravilhas. Dê esse presente a si mesmo.",
-                "Seja a terra que permite que as sementes descansem e se preparem para brotar."
+                "Seja a terra que permite que as sementes descansem e se preparem para brotar.",
+                "Sua energia é um recurso finito. Recarregue-a com carinho e sem culpa.",
+                "Permita-se um sono reparador. Ele é o elixir para sua mente e corpo.",
+                "O corpo fala quando está exausto. Ouça-o com atenção e dê o que ele precisa.",
+                "Não se sinta na obrigação de estar sempre ativo. O repouso é produtivo.",
+                "Como um rio que precisa de calmaria, sua alma anseia por momentos de paz.",
+                "Desacelere. A vida não é uma corrida, mas uma jornada para ser apreciada.",
+                "Seu bem-estar é o alicerce para tudo o mais. Cuide dele em primeiro lugar.",
+                "Um bom livro ou uma melodia suave podem ser um abraço para sua alma cansada.",
+                "O cansaço é um convite para o autocuidado. Não ignore esse chamado.",
+                "Não se sinta culpado por tirar um tempo para si. Você merece esse carinho.",
+                "A quietude do descanso é a fonte onde sua força interior se renova.",
+                "Priorize o que nutre sua alma e descarte o que drena sua energia.",
+                "Sua capacidade de florescer depende da sua capacidade de descansar.",
+                "Dê um tempo para o corpo e a mente. Ambos precisam de pausas para prosperar.",
+                "Não force a barra. A vida é um ritmo, e o descanso é parte da melodia.",
+                "A exaustão é um sinal claro: pare, respire e permita-se recomeçar.",
+                "Como a terra que repousa no inverno, você também precisa de seu tempo.",
+                "Um banho quente, uma xícara de chá. Pequenos luxos para um corpo cansado.",
+                "Sua paz interior é o maior presente que você pode dar a si mesmo.",
+                "Relaxe. O mundo pode esperar um pouco enquanto você se reconecta com sua força."
             ]
         };
         this.counselorBackgrounds = [];
@@ -83,21 +163,28 @@ class GameManager {
         this.userId = null;
 
         this.plants = [
-            { id: 'plant1', name: 'Planta1', src: 'arquivos/Planta1.png', drySrc: 'arquivos/PlantasSecas/Planta1.png', style: 'top: 70%; left: 4%; width: 15vw; height: 15vw;', isDry: false },
-            { id: 'plant2', name: 'Planta2', src: 'arquivos/Planta2.png', drySrc: 'arquivos/PlantasSecas/Planta2.png', style: 'top: 63%; left: 64%; width: 18vw; height: 18vw;', isDry: false },
-            { id: 'plant3', name: 'Planta3', src: 'arquivos/Planta3.png', drySrc: 'arquivos/PlantasSecas/Planta3.png', style: 'top: 56%; left: 25%; width: 13vw; height: 13vw;', isDry: false },
-            { id: 'plant4', name: 'Planta4', src: 'arquivos/Planta4.png', drySrc: 'arquivos/PlantasSecas/Planta4.png', style: 'top: 58%; left: 10%; width: 13vw; height: 13vw;', isDry: false },
-            { id: 'plant5', name: 'Planta5', src: 'arquivos/Planta5.png', drySrc: 'arquivos/PlantasSecas/Planta5.png', style: 'top: 73%; left: 35%; width: 15vw; height: 15vw;', isDry: false },
-            { id: 'plant6', name: 'Planta6', src: 'arquivos/Planta6.png', drySrc: 'arquivos/PlantasSecas/Planta6.png', style: 'top: 63%; left: 3%; width: 15vw; height: 15vw;', isDry: false },
-            { id: 'plant7', name: 'Planta7', src: 'arquivos/Planta7.png', drySrc: 'arquivos/PlantasSecas/Planta7.png', style: 'top: 53%; left: 70%; width: 23vw; height: 23vw;', isDry: false },
-            { id: 'plant8', name: 'Planta8', src: 'arquivos/Planta8.png', drySrc: 'arquivos/PlantasSecas/Planta8.png', style: 'top: 66%; left: 83%; width: 15vw; height: 15vw;', isDry: false },
-            { id: 'plant9', name: 'Planta9', src: 'arquivos/Planta9.png', drySrc: 'arquivos/PlantasSecas/Planta9.png', style: 'top: 68%; left: 23%; width: 10vw; height: 10vw;', isDry: false },
-            { id: 'plant10', name: 'Planta10', src: 'arquivos/Planta10.png', drySrc: 'arquivos/PlantasSecas/Planta10.png', style: 'top: 69%; left: 48%; width: 10vw; height: 10vw;', isDry: false },
-            { id: 'plant11', name: 'Planta11', src: 'arquivos/Planta11.png', drySrc: 'arquivos/PlantasSecas/Planta11.png', style: 'top: 74%; left: 70%; width: 10vw; height: 10vw;', isDry: false }
+            { id: 'plant1', name: 'Planta1', src: 'arquivos/Planta1.png', drySrc: 'arquivos/PlantasSecas/Planta1.png', style: 'top: 70%; left: 4%; width: 15vw; height: 15vw;', isDry: false, lastInteraction: Date.now() },
+            { id: 'plant2', name: 'Planta2', src: 'arquivos/Planta2.png', drySrc: 'arquivos/PlantasSecas/Planta2.png', style: 'top: 63%; left: 64%; width: 18vw; height: 18vw;', isDry: false, lastInteraction: Date.now() },
+            { id: 'plant3', name: 'Planta3', src: 'arquivos/Planta3.png', drySrc: 'arquivos/PlantasSecas/Planta3.png', style: 'top: 56%; left: 25%; width: 13vw; height: 13vw;', isDry: false, lastInteraction: Date.now() },
+            { id: 'plant4', name: 'Planta4', src: 'arquivos/Planta4.png', drySrc: 'arquivos/PlantasSecas/Planta4.png', style: 'top: 58%; left: 10%; width: 13vw; height: 13vw;', isDry: false, lastInteraction: Date.now() },
+            { id: 'plant5', name: 'Planta5', src: 'arquivos/Planta5.png', drySrc: 'arquivos/PlantasSecas/Planta5.png', style: 'top: 73%; left: 35%; width: 15vw; height: 15vw;', isDry: false, lastInteraction: Date.now() },
+            { id: 'plant6', name: 'Planta6', src: 'arquivos/Planta6.png', drySrc: 'arquivos/PlantasSecas/Planta6.png', style: 'top: 63%; left: 3%; width: 15vw; height: 15vw;', isDry: false, lastInteraction: Date.now() },
+            { id: 'plant7', name: 'Planta7', src: 'arquivos/Planta7.png', drySrc: 'arquivos/PlantasSecas/Planta7.png', style: 'top: 53%; left: 70%; width: 23vw; height: 23vw;', isDry: false, lastInteraction: Date.now() },
+            { id: 'plant8', name: 'Planta8', src: 'arquivos/Planta8.png', drySrc: 'arquivos/PlantasSecas/Planta8.png', style: 'top: 66%; left: 83%; width: 15vw; height: 15vw;', isDry: false, lastInteraction: Date.now() },
+            { id: 'plant9', name: 'Planta9', src: 'arquivos/Planta9.png', drySrc: 'arquivos/PlantasSecas/Planta9.png', style: 'top: 68%; left: 23%; width: 10vw; height: 10vw;', isDry: false, lastInteraction: Date.now() },
+            { id: 'plant10', name: 'Planta10', src: 'arquivos/Planta10.png', drySrc: 'arquivos/PlantasSecas/Planta10.png', style: 'top: 69%; left: 48%; width: 10vw; height: 10vw;', isDry: false, lastInteraction: Date.now() },
+            { id: 'plant11', name: 'Planta11', src: 'arquivos/Planta11.png', drySrc: 'arquivos/PlantasSecas/Planta11.png', style: 'top: 74%; left: 70%; width: 10vw; height: 10vw;', isDry: false, lastInteraction: Date.now() }
         ];
         this.currentPage = '';
         this.navigationHistory = [];
         this.isFirstLoad = true;
+        this.happinessLevel = 0.5;
+        this.happinessDecayInterval = null;
+    }
+
+    openPsychologistLink() {
+        const url = 'https://psicologathaynamacedolunz.com.br/blog-psicologia-analitica/';
+        window.open(url, '_blank');
     }
 
     playMusic() {
@@ -155,12 +242,6 @@ class GameManager {
         }
 
         switch (cleanPageUrl) {
-            case 'splashScreen.html':
-                setTimeout(() => {
-                    this.navigate('mainScreen');
-                }, 5000);
-                break;
-
             case 'mainScreen.html':
                 let musicState = localStorage.getItem('bgMusicState');
                 if (musicState === null) {
@@ -188,9 +269,13 @@ class GameManager {
                         this.interactWithPlant(e);
                     }
                 });
+                this.loadHappinessLevel();
+                setTimeout(() => this.updateHappinessMeter(), 100);
+                this.startHappinessDecay();
                 break;
 
             case 'diaryScreen.html':
+                this.stopHappinessDecay();
                 this.loadDiary();
                 document.getElementById('diaryTextarea').addEventListener('input', () => this.saveDiary());
                 document.querySelectorAll('.mood-btn').forEach(button => {
@@ -199,12 +284,14 @@ class GameManager {
                 break;
 
             case 'toolScreen.html':
+                this.stopHappinessDecay();
                 document.getElementById('waterToolBtn').addEventListener('click', (e) => this.selectTool(e.currentTarget.dataset.tool));
                 document.getElementById('pruneToolBtn').addEventListener('click', (e) => this.selectTool(e.currentTarget.dataset.tool));
                 document.getElementById('fertilizeToolBtn').addEventListener('click', (e) => this.selectTool(e.currentTarget.dataset.tool));
                 break;
 
             case 'conselourScreen.html':
+                this.stopHappinessDecay();
                 const mood = params.get('mood');
                 let message = "Olá, como você se sente hoje?";
                 if (mood && this.conselheiroMessages[mood]) {
@@ -218,10 +305,13 @@ class GameManager {
                 break;
 
             case 'presentationScreen.html':
+                this.stopHappinessDecay();
+                document.getElementById('psychologistBtn').addEventListener('click', () => this.openPsychologistLink());
                 document.getElementById('presentationScreen').addEventListener('click', () => this.startAndNavigate());
                 break;
 
             case 'privacidade.html':
+                this.stopHappinessDecay();
                 document.getElementById('backToGameBtn').addEventListener('click', (e) => {
                     e.preventDefault();
                     this.navigate('mainScreen');
@@ -258,7 +348,7 @@ class GameManager {
             const newStylesheet = document.createElement('link');
             newStylesheet.id = 'page-stylesheet';
             newStylesheet.rel = 'stylesheet';
-            newStylesheet.href = `${pageName}.css`;
+            newStylesheet.href = `styles/${pageName}.css`;
             document.head.appendChild(newStylesheet);
 
             this.currentPage = pageUrl;
@@ -364,6 +454,8 @@ class GameManager {
             this.plants.forEach(plant => {
                 if (data[plant.id]) {
                     plant.isDry = data[plant.id].isDry || false;
+                    // Adiciona lastInteraction ao carregar, se existir
+                    plant.lastInteraction = data[plant.id].lastInteraction || Date.now();
                 }
             });
         }
@@ -376,7 +468,7 @@ class GameManager {
         if (!this.userId) return;
         const statesToSave = {};
         this.plants.forEach(plant => {
-            statesToSave[plant.id] = { isDry: plant.isDry };
+            statesToSave[plant.id] = { isDry: plant.isDry, lastInteraction: plant.lastInteraction };
         });
         localStorage.setItem('plantStates_' + this.userId, JSON.stringify(statesToSave));
     }
@@ -401,9 +493,25 @@ class GameManager {
     checkAndDryPlants() {
         if (!this.userId) return;
         let changed = false;
+        const now = Date.now();
+        const dryTimeThreshold = 30000;
+
+        this.plants.forEach(plant => {
+            if (!plant.isDry && (now - plant.lastInteraction > dryTimeThreshold)) {
+                plant.isDry = true;
+                const plantElement = document.getElementById(plant.id);
+                if (plantElement) {
+                    plantElement.src = plant.drySrc;
+                }
+                changed = true;
+                this.happinessLevel = Math.max(0, this.happinessLevel - 0.05);
+                this.updateHappinessMeter();
+            }
+        });
+
         const dryPlantsCount = this.plants.filter(p => p.isDry).length;
         if (dryPlantsCount < 3) {
-            const healthyPlants = this.plants.filter(p => !p.isDry);
+            const healthyPlants = this.plants.filter(p => !p.isDry && (now - p.lastInteraction <= dryTimeThreshold)); // Considera apenas plantas que não secaram naturalmente ainda
             if (healthyPlants.length > 0) {
                 const randomIndex = Math.floor(Math.random() * healthyPlants.length);
                 const plantToDry = healthyPlants[randomIndex];
@@ -413,6 +521,8 @@ class GameManager {
                     plantElement.src = plantToDry.drySrc;
                 }
                 changed = true;
+                this.happinessLevel = Math.max(0, this.happinessLevel - 0.05);
+                this.updateHappinessMeter();
             }
         }
         if (changed) {
@@ -494,23 +604,32 @@ class GameManager {
         if (!this.currentTool) {
             message = "Selecione uma ferramenta primeiro!";
         } else if (plantData) {
+            plantData.lastInteraction = Date.now();
             if (plantData.isDry) {
                 if (['water', 'prune', 'fertilize'].includes(this.currentTool)) {
                     plantElement.src = plantData.src;
                     plantData.isDry = false;
                     message = "A planta está saudável novamente!";
                     stateChanged = true;
+                    this.happinessLevel = Math.min(1, this.happinessLevel + 0.05);
+                    this.updateHappinessMeter();
                     if (this.plantSound) this.plantSound.play().catch(e => console.error("Falha ao tocar som de interação:", e));
                 }
             } else {
                 if (this.currentTool === 'water') {
                     message = "A planta foi regada!";
+                    this.happinessLevel = Math.min(1, this.happinessLevel + 0.01);
+                    this.updateHappinessMeter();
                     if (this.plantSound) this.plantSound.play().catch(e => console.error("Falha ao tocar som de interação:", e));
                 } else if (this.currentTool === 'prune') {
                     message = "A planta foi podada!";
+                    this.happinessLevel = Math.min(1, this.happinessLevel + 0.015);
+                    this.updateHappinessMeter();
                     if (this.plantSound) this.plantSound.play().catch(e => console.error("Falha ao tocar som de interação:", e));
                 } else if (this.currentTool === 'fertilize') {
                     message = "A planta foi adubada!";
+                    this.happinessLevel = Math.min(1, this.happinessLevel + 0.02);
+                    this.updateHappinessMeter();
                     if (this.plantSound) this.plantSound.play().catch(e => console.error("Falha ao tocar som de interação:", e));
                 }
             }
@@ -543,6 +662,74 @@ class GameManager {
         if (!this.userId) return;
         this.navigate('conselourScreen');
     }
+
+    saveHappinessLevel() {
+        if (this.userId) {
+            localStorage.setItem('happinessLevel_' + this.userId, this.happinessLevel.toString());
+        }
+    }
+
+    loadHappinessLevel() {
+        if (this.userId) {
+            const savedLevel = localStorage.getItem('happinessLevel_' + this.userId);
+            if (savedLevel !== null) {
+                this.happinessLevel = parseFloat(savedLevel);
+            } else {
+                this.happinessLevel = 0.5;
+            }
+        }
+    }
+
+    updateHappinessMeter() {
+        const fillElement = document.getElementById('happinessMeterFill');
+        const indicatorElement = document.getElementById('happinessLevelIndicator');
+
+        if (fillElement && indicatorElement) {
+            const meterBar = fillElement.parentElement;
+            const meterHeight = meterBar.offsetHeight;
+            const fillHeight = this.happinessLevel * meterHeight;
+
+            fillElement.style.height = `${fillHeight}px`;
+
+            const indicatorCenter = meterHeight - fillHeight;
+            const indicatorHalfHeight = indicatorElement.offsetHeight / 2;
+
+            indicatorElement.style.top = `${indicatorCenter - indicatorHalfHeight}px`;
+
+            indicatorElement.style.transition = 'top 0.5s ease-out';
+        }
+        this.saveHappinessLevel();
+    }
+
+    startHappinessDecay() {
+        if (this.happinessDecayInterval) return;
+
+        this.happinessDecayInterval = setInterval(() => {
+            const healthyPlantsCount = this.plants.filter(p => !p.isDry).length;
+            const totalPlants = this.plants.length;
+            const healthyRatio = healthyPlantsCount / totalPlants;
+
+            let decayRate = 0.0002;
+
+            if (healthyRatio < 0.8) {
+                decayRate = 0.0005;
+            }
+
+            this.happinessLevel = Math.max(0, this.happinessLevel - decayRate);
+            this.updateHappinessMeter();
+
+            if (this.happinessLevel <= 0) {
+                this.stopHappinessDecay();
+            }
+        }, 30000);
+    }
+
+    stopHappinessDecay() {
+        if (this.happinessDecayInterval) {
+            clearInterval(this.happinessDecayInterval);
+            this.happinessDecayInterval = null;
+        }
+    }
 }
 
-const game = new GameManager();
+window.game = new GameManager();

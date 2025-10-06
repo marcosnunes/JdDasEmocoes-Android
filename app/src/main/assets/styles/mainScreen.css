@@ -103,3 +103,51 @@
     position: absolute;
     background-color: transparent;
 }
+
+.happiness-meter-container {
+    position: absolute;
+    top: 12%;
+    left: 6%;
+    display: flex;
+    align-items: center;
+    z-index: 10;
+}
+
+.happiness-meter-bar {
+    width: 20px;
+    height: 120px;
+    background: linear-gradient(to top, #ff4d4d, #ffdb4d, #8bc34a);
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.happiness-meter-fill {
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.3);
+    position: absolute;
+    bottom: 0;
+    transition: height 0.5s ease-out;
+}
+
+.happiness-level-indicator {
+    position: absolute;
+    left: 100%;
+    display: flex;
+    align-items: center;
+    pointer-events: none;
+    transition: top 0.5s ease-out;
+}
+
+.happiness-level-indicator .happiness-text {
+    background-color: white;
+    color: black;
+    padding: 4px 8px;
+    border-radius: 5px;
+    font-size: 0.9em;
+    font-weight: bold;
+    white-space: nowrap;
+    margin-left: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}

@@ -60,6 +60,22 @@ public class FullscreenActivity extends AppCompatActivity {
             }
 
             @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                String url = request.getUrl().toString();
+
+                if ((url.startsWith("http://") || url.startsWith("https://")) && !request.getUrl().getHost().equals("appassets.androidplatform.net")) {
+
+                    android.content.Intent intent = new android.content.Intent(android.content.Intent.ACTION_VIEW, request.getUrl());
+                    startActivity(intent);
+
+                    return true;
+                }
+                
+                return false;
+            }
+
+
+            @Override
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
                 Log.e("WebViewError", "Error: " + description + " at URL: " + failingUrl);
             }

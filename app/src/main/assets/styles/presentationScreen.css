@@ -18,3 +18,32 @@
 #presentationScreen {
     background-image: url('arquivos/telaApresentacao.png');
 }
+
+.button-container {
+    position: absolute;
+    bottom: 55px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.action-btn {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 25px;
+    background-color: #f0f0f0;
+    color: #333;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.action-btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}

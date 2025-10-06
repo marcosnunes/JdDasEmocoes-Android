@@ -51,18 +51,22 @@
     document.addEventListener('DOMContentLoaded', () => {
         game.initializeAudioControl();
 
-        game.signInAnonymously(userId => {
-            if (userId) {
-                game.initializePlantPersistence();
-                game.loadPage('splashScreen.html');
-            } else {
-                const container = document.getElementById('app-container');
-                container.textContent = 'Ocorreu um erro ao iniciar. Por favor, recarregue a página.';
-                container.style.color = 'red';
-                container.style.textAlign = 'center';
-                container.style.padding = '2rem';
-            }
-        });
+        game.loadPage('splashScreen.html');
+
+        setTimeout(() => {
+            game.signInAnonymously(userId => {
+                if (userId) {
+                    game.initializePlantPersistence();
+                    game.navigate('mainScreen');
+                } else {
+                    const container = document.getElementById('app-container');
+                    container.textContent = 'Ocorreu um erro ao iniciar. Por favor, recarregue a página.';
+                    container.style.color = 'red';
+                    container.style.textAlign = 'center';
+                    container.style.padding = '2rem';
+                }
+            });
+        }, 100);
     });
 </script>
 </body>
