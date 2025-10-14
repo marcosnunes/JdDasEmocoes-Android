@@ -19,8 +19,8 @@ android {
         applicationId "com.ojardimdasemocoes"
         minSdk 31
         targetSdk 35
-        versionCode 11
-        versionName '2.0'
+        versionCode 15
+        versionName '2.4'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.release
@@ -28,6 +28,9 @@ android {
 
     buildTypes {
         release {
+            ndk {
+                debugSymbolLevel = "FULL"
+            }
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release

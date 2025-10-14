@@ -182,11 +182,6 @@ class GameManager {
         this.happinessDecayInterval = null;
     }
 
-    openPsychologistLink() {
-        const url = 'https://psicologathaynamacedolunz.com.br/blog-psicologia-analitica/';
-        window.open(url, '_blank');
-    }
-
     playMusic() {
         if (!this.bgMusic) return;
 
@@ -209,6 +204,19 @@ class GameManager {
         }
     }
 
+    openPsychologistLink() {
+        console.log("Abrindo link da psicóloga via Interface...");
+        const url = 'https://psicologathaynamacedolunz.com.br/blog-psicologia-analitica/';
+        window.open(url, '_blank');
+    }
+
+
+    openONGLink() {
+        console.log("Abrindo link da ONG via Interface...");
+        const url = 'https://docs.google.com/forms/d/e/1FAIpQLSciGRVrjJ0k6LljShTtOsjRC9fwb8ngxVQA2opYG0sG_JbNnA/viewform';
+        window.open(url, '_blank');
+    }
+
     pauseMusic() {
         if (!this.bgMusic) return;
         localStorage.setItem('bgMusicState', 'paused');
@@ -225,6 +233,7 @@ class GameManager {
             'diaryScreen.html': "url('arquivos/telaDiario.png')",
             'toolScreen.html': "url('arquivos/telaFerramentas.png')",
             'presentationScreen.html': "url('arquivos/telaApresentacao.png')",
+            'psicologiaLinks.html': 'none',
             'privacidade.html': 'none',
             'conselourScreen.html': 'dynamic'
         };
@@ -306,16 +315,18 @@ class GameManager {
 
             case 'presentationScreen.html':
                 this.stopHappinessDecay();
-                document.getElementById('psychologistBtn').addEventListener('click', () => this.openPsychologistLink());
-                document.getElementById('presentationScreen').addEventListener('click', () => this.startAndNavigate());
+                document.getElementById('psychologistBtn').addEventListener('click', () => this.openPsychologistNavigate());
+                break;
+
+            case 'psicologiaLinks.html':
+                this.stopHappinessDecay();
+                document.getElementById('psychologistPageBtn1').addEventListener('click', () => this.openPsychologistLink());
+                document.getElementById('psychologistPageBtn2').addEventListener('click', () => this.openONGLink());
                 break;
 
             case 'privacidade.html':
                 this.stopHappinessDecay();
-                document.getElementById('backToGameBtn').addEventListener('click', (e) => {
-                    e.preventDefault();
-                    this.navigate('mainScreen');
-                });
+                document.getElementById('backToGameBtn').addEventListener('click', (e) => {e.preventDefault();this.navigate('mainScreen');});
                 break;
         }
     }
@@ -586,6 +597,10 @@ class GameManager {
 
     startAndNavigate() {
         this.navigate('mainScreen');
+    }
+
+    openPsychologistNavigate() {
+        this.navigate('psicologiaLinks');
     }
 
     selectTool(tool) {

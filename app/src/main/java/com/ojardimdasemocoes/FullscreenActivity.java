@@ -16,6 +16,8 @@ import android.webkit.WebViewClient;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.webkit.WebViewAssetLoader;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,6 +37,12 @@ public class FullscreenActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        WindowInsetsControllerCompat insetsController =
+                WindowCompat.getInsetsController(getWindow(), getWindow().getDecorView());
+
+        insetsController.setAppearanceLightStatusBars(true);
+        insetsController.setAppearanceLightNavigationBars(true);
+
         setContentView(R.layout.activity_fullscreen);
 
         webView = findViewById(R.id.webview);
@@ -70,7 +78,7 @@ public class FullscreenActivity extends AppCompatActivity {
 
                     return true;
                 }
-                
+
                 return false;
             }
 

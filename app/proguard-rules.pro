@@ -23,8 +23,16 @@
 -keepattributes LineNumberTable,SourceFile
 -renamesourcefileattribute SourceFile
 
-# Keep all classes in your package 'com.autossuficiencia'
--keep class com.autossuficiencia.** { *; }
+# Manter a classe da Javascript Interface e seus membros
+-keep class com.ojardimdasemocoes.FullscreenActivity$WebAppInterface { *; }
+
+# Manter os métodos públicos anotados com @JavascriptInterface em qualquer classe
+-keep public class * {
+    @android.webkit.JavascriptInterface <methods>;
+}
+
+# Keep all classes in your package 'com.ojardimdasemocoes'
+-keep class com.ojardimdasemocoes.** { *; }
 
 # Keep all classes that implement the 'OnClickListener' interface
 -keepclassmembers class * implements android.view.View$OnClickListener {
