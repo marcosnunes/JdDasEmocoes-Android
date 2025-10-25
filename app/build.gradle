@@ -7,9 +7,9 @@ android {
     signingConfigs {
         release {
             storeFile file('D:\\Android\\keystore\\OJardimDasEmocoes\\keystore.jks')
-            storePassword '341347'
+            storePassword '******'
             keyAlias 'key0'
-            keyPassword '341347'
+            keyPassword '******'
         }
     }
     namespace 'com.ojardimdasemocoes'
