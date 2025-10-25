@@ -5,4 +5,5 @@
     <string name="dialog_title">Deseja encerrar?</string>
     <string name="dialog_message">Você está prestes a encerrar o aplicativo</string>
     <string name="web_url">https://o-jardim-das-emocoes.vercel.app</string>
+    <string name="criar_jardim">Criar Jardim</string>
 </resources>

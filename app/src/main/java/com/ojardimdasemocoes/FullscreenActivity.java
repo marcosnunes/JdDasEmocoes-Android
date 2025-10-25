@@ -5,9 +5,11 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.os.Bundle;
 import android.util.Log;
+import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
@@ -16,13 +18,17 @@ import android.webkit.WebViewClient;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.webkit.WebViewAssetLoader;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.Locale;
 import java.util.Objects;
 
 public class FullscreenActivity extends AppCompatActivity {
@@ -33,19 +39,37 @@ public class FullscreenActivity extends AppCompatActivity {
     private String firebaseUid;
     private FirebaseAuth mAuth;
 
-    @SuppressLint({"SetJavaScriptEnabled"})
+    @SuppressLint({"SetJavaScriptEnabled", "WrongViewCast"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+
+        setContentView(R.layout.activity_fullscreen);
+        webView = findViewById(R.id.webview);
+
         WindowInsetsControllerCompat insetsController =
                 WindowCompat.getInsetsController(getWindow(), getWindow().getDecorView());
-
         insetsController.setAppearanceLightStatusBars(true);
         insetsController.setAppearanceLightNavigationBars(true);
 
-        setContentView(R.layout.activity_fullscreen);
+        ViewCompat.setOnApplyWindowInsetsListener(webView, (v, windowInsets) -> {
+            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
 
-        webView = findViewById(R.id.webview);
+            String insetCommand = String.format(
+                    Locale.US,
+                    "document.documentElement.style.setProperty('--safe-area-inset-top', '%dpx');" +
+                            "document.documentElement.style.setProperty('--safe-area-inset-bottom', '%dpx');" +
+                            "document.documentElement.style.setProperty('--safe-area-inset-left', '%dpx');" +
+                            "document.documentElement.style.setProperty('--safe-area-inset-right', '%dpx');",
+                    insets.top, insets.bottom, insets.left, insets.right
+            );
+            webView.evaluateJavascript(insetCommand, null);
+
+            return WindowInsetsCompat.CONSUMED;
+        });
+
 
         final WebViewAssetLoader assetLoader = new WebViewAssetLoader.Builder()
                 .addPathHandler("/assets/", new WebViewAssetLoader.AssetsPathHandler(this))
@@ -71,21 +95,19 @@ public class FullscreenActivity extends AppCompatActivity {
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 String url = request.getUrl().toString();
 
-                if ((url.startsWith("http://") || url.startsWith("https://")) && !request.getUrl().getHost().equals("appassets.androidplatform.net")) {
-
+                if ((url.startsWith("http://") || url.startsWith("https://")) && !"appassets.androidplatform.net".equals(request.getUrl().getHost())) {
                     android.content.Intent intent = new android.content.Intent(android.content.Intent.ACTION_VIEW, request.getUrl());
                     startActivity(intent);
-
                     return true;
                 }
-
                 return false;
             }
 
-
             @Override
-            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-                Log.e("WebViewError", "Error: " + description + " at URL: " + failingUrl);
+            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                if (request.isForMainFrame()) {
+                    Log.e("WebViewError", "Error: " + error.getDescription() + " at URL: " + request.getUrl());
+                }
             }
         });
 
@@ -111,7 +133,6 @@ public class FullscreenActivity extends AppCompatActivity {
         }
 
         firebaseUid = getSharedPreferences().getString(PREF_FIREBASE_UID, null);
-
         final String baseUrl = "https://appassets.androidplatform.net/assets/main.html";
 
         if (firebaseUid == null) {
@@ -122,7 +143,6 @@ public class FullscreenActivity extends AppCompatActivity {
                         firebaseUid = user.getUid();
                         getSharedPreferences().edit().putString(PREF_FIREBASE_UID, firebaseUid).apply();
                         Log.d("Firebase", "UID gerado: " + firebaseUid);
-                        // Carrega a URL HTTPS virtual com o UID
                         webView.loadUrl(baseUrl + "?uid=" + firebaseUid);
                     } else {
                         showErrorAndExit("Falha ao obter o UID do usuário. Reinicie o aplicativo.");
@@ -150,7 +170,6 @@ public class FullscreenActivity extends AppCompatActivity {
         builder.setTitle("Sair do Aplicativo")
                 .setMessage("Você tem certeza que deseja sair?")
                 .setPositiveButton("Sim", (dialog, id) -> {
-                    // ADICIONE ESTA LINHA PARA PAUSAR A MÚSICA NA WEBVIEW
                     webView.evaluateJavascript("var music = document.getElementById('bgMusic'); if (music) { music.pause(); } localStorage.setItem('bgMusicState', 'paused');", null);
                     finish();
                 })
@@ -176,7 +195,13 @@ public class FullscreenActivity extends AppCompatActivity {
         if (connectivityManager == null) {
             return false;
         }
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+        Network activeNetwork = connectivityManager.getActiveNetwork();
+        if (activeNetwork == null) {
+            return false;
+        }
+        NetworkCapabilities networkCapabilities = connectivityManager.getNetworkCapabilities(activeNetwork);
+        return networkCapabilities != null &&
+                networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
+                networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED);
     }
 }

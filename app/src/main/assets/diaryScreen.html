@@ -1,22 +1,24 @@
 <head>
-    <link href="styles/diaryScreen.css" rel="stylesheet">
-    <title>Diary Screen</title>
+        <link href="styles/diaryScreen.css" rel="stylesheet">
+        <title>Diary Screen</title>
 </head>
 
 <div class="screen flex-col justify-end items-center p-6" id="diaryScreen">
-    <label for="diaryTextarea"></label><textarea
-        class="absolute w-[90%] h-[52%] top-[22%] left-1/2 -translate-x-1/2 p-4 rounded-lg resize-none overflow-y-auto focus:outline-none shadow-md bg-transparent text-gray-800"
-        disabled id="diaryTextarea" placeholder="Carregando seu diário..."></textarea>
-    <div id="diarySaveFeedback">Diário salvo!</div>
+        <div class="safe-area-content justify-end items-center p-6">
+                <label for="diaryTextarea"></label><textarea
+                        class="absolute w-[100%] h-[55%] top-[20%] left-1/2 -translate-x-1/2 p-4 rounded-lg resize-none overflow-y-auto focus:outline-none shadow-md bg-transparent text-gray-800"
+                        disabled id="diaryTextarea" placeholder="Carregando seu diário..."></textarea>
+                <div id="diarySaveFeedback">Diário salvo!</div>
 
-    <div class="flex items-center justify-around w-full mt-4 absolute bottom-[14%] right-[1%] px-4">
-        <button class="mood-btn" data-mood="Feliz" onclick="game.playButtonSound()"
-                style="background-image: url('arquivos/feliz.png');"></button>
-        <button class="mood-btn" data-mood="Triste" onclick="game.playButtonSound()"
-                style="background-image: url('arquivos/triste.png');"></button>
-        <button class="mood-btn" data-mood="Estressado" onclick="game.playButtonSound()"
-                style="background-image: url('arquivos/estressado.png');"></button>
-        <button class="mood-btn" data-mood="Cansado" onclick="game.playButtonSound()"
-                style="background-image: url('arquivos/cansado.png');"></button>
-    </div>
+                <div class="flex items-center justify-around w-full mt-4 absolute bottom-[12%] right-[1%] px-4">
+                        <button class="mood-btn" data-mood="Feliz" onclick="game.playButtonSound()"
+                                style="background-image: url('arquivos/feliz.png');"></button>
+                        <button class="mood-btn" data-mood="Triste" onclick="game.playButtonSound()"
+                                style="background-image: url('arquivos/triste.png');"></button>
+                        <button class="mood-btn" data-mood="Estressado" onclick="game.playButtonSound()"
+                                style="background-image: url('arquivos/estressado.png');"></button>
+                        <button class="mood-btn" data-mood="Cansado" onclick="game.playButtonSound()"
+                                style="background-image: url('arquivos/cansado.png');"></button>
+                </div>
+        </div>
 </div>
