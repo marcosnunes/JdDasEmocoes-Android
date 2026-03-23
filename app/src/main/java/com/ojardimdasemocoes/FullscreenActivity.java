@@ -2,11 +2,6 @@ package com.ojardimdasemocoes;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.Network;
-import android.net.NetworkCapabilities;
 import android.os.Bundle;
 import android.util.Log;
 import android.webkit.WebResourceError;
@@ -16,44 +11,34 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.webkit.WebViewAssetLoader;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
 import java.util.Locale;
-import java.util.Objects;
 
 public class FullscreenActivity extends AppCompatActivity {
 
-    private static final String PREF_FIREBASE_UID = "firebase_uid";
     private WebView webView;
     private AlertDialog exitConfirmationDialog;
-    private String firebaseUid;
-    private FirebaseAuth mAuth;
 
     @SuppressLint({"SetJavaScriptEnabled", "WrongViewCast"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Ativa a exibição de ponta a ponta (Edge-to-Edge) da maneira moderna
+        EdgeToEdge.enable(this);
+        
         super.onCreate(savedInstanceState);
-
-        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
 
         setContentView(R.layout.activity_fullscreen);
         webView = findViewById(R.id.webview);
 
-        WindowInsetsControllerCompat insetsController =
-                WindowCompat.getInsetsController(getWindow(), getWindow().getDecorView());
-        insetsController.setAppearanceLightStatusBars(true);
-        insetsController.setAppearanceLightNavigationBars(true);
-
+        // Lida com os recuos (insets) do sistema para garantir que o conteúdo não fique sob barras
         ViewCompat.setOnApplyWindowInsetsListener(webView, (v, windowInsets) -> {
             Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
 
@@ -111,8 +96,7 @@ public class FullscreenActivity extends AppCompatActivity {
             }
         });
 
-        mAuth = FirebaseAuth.getInstance();
-        authenticateUser();
+        startApp();
 
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
@@ -126,40 +110,9 @@ public class FullscreenActivity extends AppCompatActivity {
         });
     }
 
-    private void authenticateUser() {
-        if (!hasNetworkConnection()) {
-            showErrorAndExit("Sem conexão com a internet. Por favor, conecte-se e reinicie o aplicativo.");
-            return;
-        }
-
-        firebaseUid = getSharedPreferences().getString(PREF_FIREBASE_UID, null);
+    private void startApp() {
         final String baseUrl = "https://appassets.androidplatform.net/assets/main.html";
-
-        if (firebaseUid == null) {
-            mAuth.signInAnonymously().addOnCompleteListener(this, task -> {
-                if (task.isSuccessful()) {
-                    FirebaseUser user = mAuth.getCurrentUser();
-                    if (user != null) {
-                        firebaseUid = user.getUid();
-                        getSharedPreferences().edit().putString(PREF_FIREBASE_UID, firebaseUid).apply();
-                        Log.d("Firebase", "UID gerado: " + firebaseUid);
-                        webView.loadUrl(baseUrl + "?uid=" + firebaseUid);
-                    } else {
-                        showErrorAndExit("Falha ao obter o UID do usuário. Reinicie o aplicativo.");
-                    }
-                } else {
-                    Log.e("Firebase", "Falha na autenticação Firebase: " + Objects.requireNonNull(task.getException()).getMessage());
-                    showErrorAndExit("Falha ao autenticar com o Firebase. Por favor, reinicie o aplicativo.");
-                }
-            });
-        } else {
-            Log.d("Firebase", "UID encontrado: " + firebaseUid);
-            webView.loadUrl(baseUrl + "?uid=" + firebaseUid);
-        }
-    }
-
-    private SharedPreferences getSharedPreferences() {
-        return getSharedPreferences("app_prefs", MODE_PRIVATE);
+        webView.loadUrl(baseUrl);
     }
 
     private void showExitConfirmationDialog() {
@@ -176,32 +129,5 @@ public class FullscreenActivity extends AppCompatActivity {
                 .setNegativeButton("Não", (dialog, id) -> dialog.dismiss());
         exitConfirmationDialog = builder.create();
         exitConfirmationDialog.show();
-    }
-
-    private void showErrorAndExit(String message) {
-        if (isFinishing() || isDestroyed()) {
-            return;
-        }
-        new AlertDialog.Builder(this)
-                .setTitle("Erro")
-                .setMessage(message)
-                .setPositiveButton("OK", (dialog, id) -> finish())
-                .setCancelable(false)
-                .show();
-    }
-
-    private boolean hasNetworkConnection() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (connectivityManager == null) {
-            return false;
-        }
-        Network activeNetwork = connectivityManager.getActiveNetwork();
-        if (activeNetwork == null) {
-            return false;
-        }
-        NetworkCapabilities networkCapabilities = connectivityManager.getNetworkCapabilities(activeNetwork);
-        return networkCapabilities != null &&
-                networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
-                networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED);
     }
 }

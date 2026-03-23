@@ -1,23 +1,3 @@
-// web app's Firebase configuration
-const firebaseConfig = {
-    apiKey: "AIzaSyDfrqME4RYWwXyR-GbtAOl6TPvGjZvC4V8",
-    authDomain: "jardim-das-emocoes.firebaseapp.com",
-    databaseURL: "https://jardim-das-emocoes-default-rtdb.firebaseio.com",
-    projectId: "jardim-das-emocoes",
-    storageBucket: "jardim-das-emocoes.firebasestorage.app",
-    messagingSenderId: "18349891056",
-    appId: "1:18349891056:web:659fcf4bc363d4fadd1135",
-    measurementId: "G-CKWYYHY9X4"
-};
-
-// Initialize Firebase
-if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
-}
-
-// Initialize Firebase services
-const auth = firebase.auth();
-const db = firebase.database();
 
 class GameManager {
     constructor() {
@@ -52,7 +32,7 @@ class GameManager {
                 "A sua risada é a mais linda canção que ecoa em seu jardim de emoções.",
                 "Encontre a beleza em cada detalhe, e a felicidade se revelará em sua plenitude.",
                 "Deixe o seu coração dançar ao ritmo da alegria, livre e leve como uma borboleta.",
-                "A felicidade é a arte de viver com leveza, colorindo o mundo com suas cores.",
+                "A felicidade é the arte de viver com leveza, colorindo o mundo com suas cores.",
                 "Que a paz e a alegria sejam as sementes que você planta em cada novo dia.",
                 "Sua jornada é um poema de felicidade, escrito com cada passo e cada sorriso."
             ],
@@ -160,7 +140,7 @@ class GameManager {
         this.bgMusic = null;
         this.plantSound = null;
         this.buttonSound = null;
-        this.userId = null;
+        this.userId = 'localUser'; // Usando um ID fixo para armazenamento local
 
         this.plants = [
             { id: 'plant1', name: 'Planta1', src: 'arquivos/Planta1.png', drySrc: 'arquivos/PlantasSecas/Planta1.png', style: 'top: 70%; left: 4%; width: 15vw; height: 15vw;', isDry: false, lastInteraction: Date.now() },
@@ -180,6 +160,8 @@ class GameManager {
         this.isFirstLoad = true;
         this.happinessLevel = 0.5;
         this.happinessDecayInterval = null;
+
+        this.initializePlantPersistence();
     }
 
     playMusic() {
@@ -332,11 +314,6 @@ class GameManager {
     }
 
     async loadPage(pageUrl) {
-        if (!this.userId && pageUrl !== 'splashScreen.html') {
-            console.error("User ID não encontrado. Navegação abortada.");
-            return;
-        }
-
         try {
             const pageName = pageUrl.split('?')[0].split('.')[0];
             const fragmentUrl = `${pageName}.html`;
@@ -423,39 +400,14 @@ class GameManager {
         }
     }
 
-    signInAnonymously(callback) {
-        auth.signInAnonymously()
-            .then(() => {
-                const user = auth.currentUser;
-                if (user) {
-                    console.log("Login anônimo bem-sucedido. UID:", user.uid);
-                    this.userId = user.uid;
-                    if (callback) callback(this.userId);
-                }
-            })
-            .catch((error) => {
-                console.error("Erro no login anônimo:", error);
-                if (callback) callback(null);
-            });
-    }
-
     getUserIdFromUrl() {
-        if (this.userId) return;
-        const urlParams = new URLSearchParams(window.location.search);
-        const uidFromUrl = urlParams.get('uid');
-        if (uidFromUrl) {
-            this.userId = uidFromUrl;
-            console.log("User ID recebido da URL:", this.userId);
-            this.initializePlantPersistence();
-        } else {
-            console.warn("UID não encontrado na URL. A tela de splash deve lidar com isso.");
-        }
+        // Agora o ID é fixo e local
+        console.log("Usando ID local para persistência.");
+        this.initializePlantPersistence();
     }
 
     initializePlantPersistence() {
-        if (this.userId) {
-            this.loadPlantStates();
-        }
+        this.loadPlantStates();
     }
 
     loadPlantStates() {
@@ -465,7 +417,6 @@ class GameManager {
             this.plants.forEach(plant => {
                 if (data[plant.id]) {
                     plant.isDry = data[plant.id].isDry || false;
-                    // Adiciona lastInteraction ao carregar, se existir
                     plant.lastInteraction = data[plant.id].lastInteraction || Date.now();
                 }
             });
@@ -476,7 +427,6 @@ class GameManager {
     }
 
     savePlantStates() {
-        if (!this.userId) return;
         const statesToSave = {};
         this.plants.forEach(plant => {
             statesToSave[plant.id] = { isDry: plant.isDry, lastInteraction: plant.lastInteraction };
@@ -502,7 +452,6 @@ class GameManager {
     }
 
     checkAndDryPlants() {
-        if (!this.userId) return;
         let changed = false;
         const now = Date.now();
         const dryTimeThreshold = 30000;
@@ -522,7 +471,7 @@ class GameManager {
 
         const dryPlantsCount = this.plants.filter(p => p.isDry).length;
         if (dryPlantsCount < 3) {
-            const healthyPlants = this.plants.filter(p => !p.isDry && (now - p.lastInteraction <= dryTimeThreshold)); // Considera apenas plantas que não secaram naturalmente ainda
+            const healthyPlants = this.plants.filter(p => !p.isDry && (now - p.lastInteraction <= dryTimeThreshold));
             if (healthyPlants.length > 0) {
                 const randomIndex = Math.floor(Math.random() * healthyPlants.length);
                 const plantToDry = healthyPlants[randomIndex];
@@ -542,52 +491,50 @@ class GameManager {
     }
 
     loadDiary() {
-        if (!this.userId) return;
-        const diaryRef = db.ref('diaries/' + this.userId);
         const diaryTextarea = document.getElementById('diaryTextarea');
+        const savedDiary = localStorage.getItem('diary_' + this.userId);
 
-        diaryRef.once('value', (snapshot) => {
-            if (diaryTextarea) {
-                const data = snapshot.val();
-                diaryTextarea.value = (data && data.entry) ? data.entry : "";
-                diaryTextarea.placeholder = "Escreva sobre suas emoções hoje...";
-                diaryTextarea.disabled = false;
+        if (diaryTextarea) {
+            if (savedDiary) {
+                const data = JSON.parse(savedDiary);
+                diaryTextarea.value = data.entry || "";
+            } else {
+                diaryTextarea.value = "";
             }
-        }).catch(error => {
-            console.error("Erro ao carregar diário:", error);
-            if (diaryTextarea) {
-                diaryTextarea.placeholder = "Erro ao carregar. Clique para escrever.";
-                diaryTextarea.disabled = false;
-            }
-        });
+            diaryTextarea.placeholder = "Escreva sobre suas emoções hoje...";
+            diaryTextarea.disabled = false;
+        }
     }
 
     saveDiary() {
-        if (!this.userId) return;
         const diaryTextarea = document.getElementById('diaryTextarea');
+        if (!diaryTextarea) return;
+
         const textToSave = diaryTextarea.value;
-        const diaryRef = db.ref('diaries/' + this.userId);
         const feedbackEl = document.getElementById('diarySaveFeedback');
 
-        diaryRef.set({
+        const diaryData = {
             entry: textToSave,
-            timestamp: firebase.database.ServerValue.TIMESTAMP
-        }).then(() => {
+            timestamp: Date.now()
+        };
+
+        try {
+            localStorage.setItem('diary_' + this.userId, JSON.stringify(diaryData));
             if (feedbackEl) {
-                feedbackEl.textContent = "Diário salvo!";
+                feedbackEl.textContent = "Diário salvo localmente!";
                 feedbackEl.style.backgroundColor = '#22c55e';
                 feedbackEl.classList.add('show');
                 setTimeout(() => feedbackEl.classList.remove('show'), 2000);
             }
-        }).catch((error) => {
-            console.error("Erro ao salvar o diário:", error);
+        } catch (e) {
+            console.error("Erro ao salvar o diário localmente:", e);
             if (feedbackEl) {
                 feedbackEl.textContent = "Erro ao salvar!";
                 feedbackEl.style.backgroundColor = '#ef4444';
                 feedbackEl.classList.add('show');
                 setTimeout(() => feedbackEl.classList.remove('show'), 2000);
             }
-        });
+        }
     }
 
     navigate(screenId) {
@@ -604,7 +551,6 @@ class GameManager {
     }
 
     selectTool(tool) {
-        if (!this.userId) return;
         this.loadPage(`mainScreen.html?tool=${tool}`);
     }
 
@@ -668,30 +614,24 @@ class GameManager {
     }
 
     setMood(mood) {
-        if (!this.userId) return;
         this.lastMood = mood;
         this.loadPage(`conselourScreen.html?mood=${mood}`);
     }
 
     openCounselorScreen() {
-        if (!this.userId) return;
         this.navigate('conselourScreen');
     }
 
     saveHappinessLevel() {
-        if (this.userId) {
-            localStorage.setItem('happinessLevel_' + this.userId, this.happinessLevel.toString());
-        }
+        localStorage.setItem('happinessLevel_' + this.userId, this.happinessLevel.toString());
     }
 
     loadHappinessLevel() {
-        if (this.userId) {
-            const savedLevel = localStorage.getItem('happinessLevel_' + this.userId);
-            if (savedLevel !== null) {
-                this.happinessLevel = parseFloat(savedLevel);
-            } else {
-                this.happinessLevel = 0.5;
-            }
+        const savedLevel = localStorage.getItem('happinessLevel_' + this.userId);
+        if (savedLevel !== null) {
+            this.happinessLevel = parseFloat(savedLevel);
+        } else {
+            this.happinessLevel = 0.5;
         }
     }
 
