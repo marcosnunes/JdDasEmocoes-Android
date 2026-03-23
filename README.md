@@ -37,9 +37,9 @@ Se tiver dúvidas, sugestões ou precisar de ajuda:
 
 - Email: marcos.lindolpho@gmail.com
 
-## Site oficial
+## Página de privacidade
 
-- https://o-jardim-das-emocoes.vercel.app
+- [https://o-jardim-das-emocoes.vercel.app](https://jd-das-emocoes-privacy.vercel.app/)
 
 ## Aviso importante
 
