@@ -3,13 +3,21 @@ plugins {
     alias(libs.plugins.google.gms.google.services)
 }
 
+// Carrega as propriedades do arquivo local.properties
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localProperties.load(new FileInputStream(localPropertiesFile))
+}
+
 android {
     signingConfigs {
         release {
-            storeFile file('D:\\Android\\keystore\\OJardimDasEmocoes\\keystore')
-            keyAlias 'key0'
-            storePassword '341347'
-            keyPassword '341347'
+            // Lê do local.properties ou usa valores padrão
+            storeFile localProperties['release.storeFile'] ? file(localProperties['release.storeFile']) : null
+            storePassword localProperties['release.storePassword']
+            keyAlias localProperties['release.keyAlias']
+            keyPassword localProperties['release.keyPassword']
         }
     }
     namespace 'com.ojardimdasemocoes'
@@ -22,8 +30,8 @@ android {
         minSdk = libs.versions.minSdk.get().toInteger()
         targetSdk = libs.versions.targetSdk.get().toInteger()
 
-        versionCode 18
-        versionName '2.7'
+        versionCode 19
+        versionName '2.8'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.release

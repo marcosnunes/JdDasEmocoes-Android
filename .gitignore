@@ -40,3 +40,14 @@ captures/
 *.jks
 .env
 test-output/
+
+# Keystore / Senhas
+*.keystore
+*.jks
+*.p12
+*.key
+google-services.json
+
+# Secrets
+secrets.properties
+local.properties
